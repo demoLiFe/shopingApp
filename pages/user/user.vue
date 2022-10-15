@@ -1,0 +1,374 @@
+<template>
+	<view class="user">
+		<view class="bg-img">
+			<!-- 用户信息 -->
+			<view class="user-info-box">
+				<image src="/static/missing-face.png" mode=""></image>
+				<text class="name">{{userInfo.name}}</text>
+			</view>
+			<!-- 会员卡 -->
+			<view class="vip-card-box">
+				<text class="level">会员1</text>
+				<text class="btn">升级会员</text>
+			</view>
+		</view>
+		<!-- 底部覆盖 -->
+		<view class="cover-box" :style="{transform:`translateY(${coverMove}upx)`}" @touchstart="coverTouchStart" @touchmove="coverTouchMove" @touchend="coverTouchEnd">
+			<view class="arc-bg"></view>
+			<!-- 钱包 -->
+			<view class="moneybag-section bg-f">
+				<view class="item">
+					<text class="num">888</text>
+					<text>余额</text>
+				</view>
+				<view class="item">
+					<text class="num">20</text>
+					<text>优惠券</text>
+				</view>
+				<view class="item">
+					<text class="num">10000</text>
+					<text>积分</text>
+				</view>
+			</view>
+			<!-- 订单 -->
+			<view class="order-section bg-f">
+				<view class="order-item" @click="jumpToOrderList(0)"  hover-class="order-hover"  hover-stay-time="60">
+					<text class="font-icon icon-shouye"></text>
+					<text>全部订单</text>
+				</view>
+				<view class="order-item" @click="jumpToOrderList(1)" hover-class="order-hover"  hover-stay-time="60">
+					<text class="font-icon icon-daifukuan"></text>
+					<text>待付款</text>
+				</view>
+				<view class="order-item" @click="jumpToOrderList(2)" hover-class="order-hover" hover-stay-time="60">
+					<text class="font-icon icon-yishouhuo"></text>
+					<text>待收货</text>
+				</view>
+				<view class="order-item" @click="jumpToOrderList(4)" hover-class="order-hover" hover-stay-time="60">
+					<text class="font-icon icon-shouhoutuikuan"></text>
+					<text>退款/售后</text>
+				</view>
+			</view>
+			
+			<!-- 浏览历史 -->
+			<view class="history-section bg-f">
+				<view class="header">
+					<text class="font-icon icon-lishijilu"></text>
+					<text class="title">历史记录</text>
+				</view>
+				<scroll-view class="scroll-wraper" scroll-x="true"  >
+					<view class="history-list">
+						<image v-for="(item,index) in historyList" :key="index" :src="item.image"></image>
+					</view>
+				</scroll-view>
+			</view>
+			<!-- 功能列表 -->
+			<view class="action-list bg-f">
+				<view class="list-cell" hover-class="cell-hover" hover-stay-time="60" >
+					<text class="font-icon icon-iconfontweixin" style="color: #e07472;font-size: 38upx;"></text>
+					<view class="right">
+						<text class="cell-title">我的钱包</text>
+						<text class="cell-des">你的会员还有10天到期</text>
+						<text class="font-icon icon-you"></text>
+					</view>
+				</view>
+				<view class="list-cell" hover-class="cell-hover" hover-stay-time="60" @click="jumpToAddress">
+					<text class="font-icon icon-dizhi" style="color: #5fcda2;font-size: 38upx;"></text>
+					<view class="right">
+						<text class="cell-title">地址管理</text>
+						<text class="font-icon icon-you"></text>
+					</view>
+				</view>
+				<view class="list-cell" hover-class="cell-hover" hover-stay-time="60" >
+					<text class="font-icon icon-share" style="color: #9789f7;font-size: 38upx;"></text>
+					<view class="right">
+						<text class="cell-title">分享</text>
+						<text class="cell-des">邀请好友</text>
+						<text class="font-icon icon-you"></text>
+					</view>
+				</view>
+				<view class="list-cell" hover-class="cell-hover" hover-stay-time="60">
+					<text class="font-icon icon-pinglun-copy" style="color: #ee883b;font-size: 38upx;"></text>
+					<view class="right">
+						<text class="cell-title">晒单</text>
+						<text class="cell-des">晒单抢红包</text>
+						<text class="font-icon icon-you"></text>
+					</view>
+				</view>
+				<view class="list-cell" hover-class="cell-hover" hover-stay-time="60">
+					<text class="font-icon icon-shoucang_xuanzhongzhuangtai" style="color: #54b4ef;font-size: 38upx;"></text>
+					<view class="right">
+						<text class="cell-title">我的收藏</text>
+						<text class="font-icon icon-you"></text>
+					</view>
+				</view>
+				<view class="list-cell" hover-class="cell-hover" hover-stay-time="60" @click="jumpToSetting">
+					<text class="font-icon icon-shezhi1" style="color: #e07472;font-size: 38upx;"></text>
+					<view class="right">
+						<text class="cell-title">设置</text>
+						<text class="font-icon icon-you"></text>
+					</view>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data(){
+			return {
+				userInfo:{
+					name:'admin'
+				},
+				historyList:[
+					{
+						image:'https://img13.360buyimg.com/n8/jfs/t1/30343/20/1029/481370/5c449438Ecb46a15b/2b2adccb6dc742fd.jpg'
+					},
+					{
+						image:'https://img13.360buyimg.com/n8/jfs/t1/30343/20/1029/481370/5c449438Ecb46a15b/2b2adccb6dc742fd.jpg'
+					},
+					{
+						image:'https://img13.360buyimg.com/n8/jfs/t1/30343/20/1029/481370/5c449438Ecb46a15b/2b2adccb6dc742fd.jpg'
+					},
+					{
+						image:'https://img13.360buyimg.com/n8/jfs/t1/30343/20/1029/481370/5c449438Ecb46a15b/2b2adccb6dc742fd.jpg'
+					},
+					{
+						image:'https://img13.360buyimg.com/n8/jfs/t1/30343/20/1029/481370/5c449438Ecb46a15b/2b2adccb6dc742fd.jpg'
+					}
+				],
+				startY:0,//记录手势y方向初始位置
+				coverMove:0,
+			}
+		},
+		methods:{
+			coverTouchStart(e){
+				this.startY = e.touches[0].pageY; 
+				return;
+			},
+			coverTouchMove(e){
+				if(e.touches[0].pageY - this.startY <= 160 &&  this.startY < e.touches[0].pageY){
+					this.coverMove = e.touches[0].pageY - this.startY;
+					return;
+				};
+			},
+			coverTouchEnd(e){
+				//回弹
+				this.coverMove = 0
+				return;
+			},
+			//跳转到订单
+			jumpToOrderList(type){
+				uni.navigateTo({
+					url:`/pages/user/order?type=${type}`
+				})
+			},
+			//跳转到地址管理
+			jumpToAddress(){
+				uni.navigateTo({
+					url:'/pages/user/address'
+				})
+			},
+			//跳转到设置
+			jumpToSetting(){
+				uni.navigateTo({
+					url:'/pages/user/setting'
+				})
+			}
+			
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	.bg-img{
+		height: 520upx;
+		background-image: url('../../static/user-bg.jpg');
+		background-size: 100% 100%;
+		padding: 100upx 30upx 0;
+		z-index: 88;
+		.user-info-box{
+			display: flex;
+			align-items: center;
+			height: 180upx;
+			image{
+				border: 2upx solid #fff;
+				border-radius: 50%;
+				height: 130upx;
+				width: 130upx;
+			}
+			.name{
+				font-size: 38upx;
+				color: #303133;
+				margin-left: 20upx;
+			}
+		}
+		.vip-card-box{
+			position: relative;
+			z-index: 88;
+			height: 240upx;
+			padding: 20upx 24upx;
+			border-radius: 16uxp 16upx 0 0;
+			background-image: url('/static/temp/ad2.jpg');
+			.level{
+				position: absolute;
+				left: 20upx;
+				top: 20upx;
+				color: #F50000;
+			}
+			.btn{
+				position: absolute;
+				right: 20upx;
+				top: 20upx;
+				// color: #abb62d;
+			}
+		}
+	}
+	
+	//底部覆盖
+	.cover-box{
+		// transform: translateY(160upx);
+		z-index: 99;
+		position: relative;
+		margin-top: -140upx;
+		background: #f5f5f5;
+		padding:0 30upx;
+		transition: transform 0.3s cubic-bezier(0.21, 1.93, 0.53, 0.64) 0s;
+		.arc-bg{
+			width: 100%;
+			position: absolute;
+			left: 0;
+			top:-36upx;
+			height: 36upx;
+			background: url('../../static/arc.png');
+			background-size: 100% 100%;
+		}
+		.moneybag-section{
+			border-radius: 10upx;
+			display: flex;
+			align-items: center;
+			justify-content: space-around;
+			.item{
+				height: 140upx;
+				display: flex;
+				align-items: center;
+				flex-direction: column;
+				justify-content: center;
+				font-size: 24upx;
+				color: #75787d;
+				.num{
+					margin-bottom: 8upx;
+					font-size: 32upx;
+					color: #303133;
+				}
+			}
+		}
+		.order-section{
+			display: flex;
+			justify-content: space-between;
+			margin-top: 20upx;
+			border-radius: 10upx;
+			padding: 28upx;
+			.order-item{
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				height: 120upx;
+				width: 120upx;
+				border-radius: 10upx;
+				color: #303133;
+				font-size: 24upx;
+				.font-icon{
+					margin-bottom: 18upx;
+					font-size: 48upx;
+					color: #fa436a;
+				}
+			}
+			.order-hover{
+				background: #F5F5F5;
+			}
+		}
+		.bg-f{
+			background: #fff;
+		}
+		//浏览历史
+		.history-section{
+			margin-top: 20upx;
+			padding: 30upx;
+			padding-bottom: 0;
+			.header{
+				font-size: 28upx;
+				color: #303133;
+				display: flex;
+				align-items: center;
+				.font-icon{
+					color: #5eba8f;
+					font-size: 46upx;
+				}
+				.title{
+					margin-left: 16upx;
+				}
+			}
+			.scroll-wraper{
+				padding-top: 30upx;
+				.history-list{
+					display: flex;
+					flex-wrap: nowrap;
+					image{
+						flex-shrink: 0;
+						width: 160upx;
+						height: 160upx;
+						border-radius: 10upx;
+						margin-right: 10upx;
+					}
+				}
+			}
+		}
+		//功能列表
+		.action-list{
+			.list-cell{
+				display: flex;
+				align-items: center;
+				padding-left: 30upx;
+				.font-icon{
+					width: 56upx;
+					display: flex;
+					align-items: center;
+				}
+				.right{
+					padding:20upx 0;
+					flex: 1;
+					// width: 100%;
+					padding-right: 30upx;
+					line-height: 60upx;
+					display: flex;
+					align-items: center;
+					border-bottom: 1px solid #E4E7ED;
+					.cell-title{
+						flex: 1;
+						margin-right: 10upx;
+						color: #303133;
+						font-size: 28upx;
+					}
+					.cell-des{
+						color: #909399;
+						font-size: 26upx;
+					}
+					.icon-you{
+						margin-right: 30upx;
+						width: 0;
+						margin-left: 20upx;
+						color: #606266;
+						font-size: 30upx;
+					}
+				}
+				
+			}
+			.cell-hover{
+				background: #F5F5F5;
+			}
+		}
+	}
+</style>
