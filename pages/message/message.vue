@@ -2,7 +2,7 @@
 	<view class="message">
 		<scroll-view class="scroll-view" scroll-y="true" >
 			<view class="list">
-				<view class="list-item" v-for="(item,index) in sessionList" :key="index">
+				<view class="list-item" v-for="(item,index) in sessionList" :key="index" @click="jumpToPage(item)">
 					<view class="avatar">
 						<u-avatar  size="50" shape="square" :src="item.avatar"></u-avatar>
 					</view>
@@ -66,7 +66,19 @@
 			}
 		},
 		methods:{
-			
+			//跳转对应页面
+			jumpToPage(item){
+				//聊天界面
+				if(item.msgType === 0){
+					uni.navigateTo({
+						url:'/pages/message/chat'
+					})
+				}else{//通知界面
+					uni.navigateTo({
+						url:'/pages/message/noticeList'
+					})
+				};
+			},
 		}
 	}
 </script>
