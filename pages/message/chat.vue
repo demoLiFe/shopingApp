@@ -5,8 +5,8 @@
 				<block v-for="(item,index) in msgList" :key="index">
 					<view class="date-time">{{item.dateTime}}</view>
 					<block v-for="(citem,cindex) in item.list" :key="citem.msg">
-						<view class="chat-item chat-left" v-if="citem.uid != 888888">
-							<u-avatar class="avartar-left" :src="citem.avatar" ></u-avatar>
+						<view class="chat-item chat-left" v-if="citem.uid != 888888"  >
+							<u-avatar class="avartar-left" :src="citem.avatar" @click="jumpToUserDetail(citem)"></u-avatar>
 							<view class="msg-content">
 								<text>{{citem.msg}}</text>
 								<view class="jiantou-left"></view>
@@ -17,7 +17,7 @@
 								<text>{{citem.msg}}</text>
 								<view class="jiantou-right"></view>
 							</view>
-							<u-avatar class="avartar-right" :src="citem.avatar" ></u-avatar>
+							<u-avatar class="avartar-right" :src="citem.avatar" @click="jumpToUserDetail(citem)"></u-avatar>
 						</view>
 					</block>
 				</block>
@@ -54,7 +54,7 @@
 						list:[
 							{
 								uid:'888888',
-								avatar:'',
+								avatar:'https://img1.baidu.com/it/u=3353873514,1997887075&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=889',
 								nickName:'',
 								msg:'今天天气真好',
 								pic:'',
@@ -78,7 +78,7 @@
 							},
 							{
 								uid:'888888',
-								avatar:'',
+								avatar:'https://img1.baidu.com/it/u=3353873514,1997887075&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=889',
 								nickName:'',
 								msg:'你猜啊',
 								pic:'',
@@ -94,7 +94,7 @@
 							},
 							{
 								uid:'888888',
-								avatar:'',
+								avatar:'https://img1.baidu.com/it/u=3353873514,1997887075&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=889',
 								nickName:'',
 								msg:'我抽你大爷 你个二怂',
 								pic:'',
@@ -108,9 +108,35 @@
 								pic:'',
 								voice:''
 							},
+							{
+								uid:'888888',
+								avatar:'https://img1.baidu.com/it/u=3353873514,1997887075&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=889',
+								nickName:'',
+								msg:'滚蛋',
+								pic:'',
+								voice:''
+							},
+							{
+								uid:'888888',
+								avatar:'https://img1.baidu.com/it/u=3353873514,1997887075&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=889',
+								nickName:'',
+								msg:'什么玩意儿 我是你鸡哥',
+								pic:'',
+								voice:''
+							},
 						]
 					}
 				]
+			}
+		},
+		methods:{
+			//跳转到用户详情页
+			jumpToUserDetail(citem){
+				console.log(111);
+				uni.previewImage({
+					
+					urls:[citem.avatar]
+				})
 			}
 		}
 	}
