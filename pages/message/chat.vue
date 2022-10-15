@@ -206,7 +206,7 @@
 						    right: -32upx;
 							top: 50%;
 							transform: translateY(-50%);
-							border-left:  16upx solid #fff;
+							border-left:  16upx solid #fa436a;
 							border-bottom: 16upx solid transparent;
 							border-right: 16upx solid transparent;
 							border-top: 16upx solid transparent;
