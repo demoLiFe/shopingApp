@@ -1,6 +1,6 @@
 <template>
-	<view class="chat">
-		<scroll-view class="scroll-view" scroll-y="true" scroll-top="120">
+	<view class="chat" >
+		<scroll-view class="scroll-view" scroll-y="true" scroll-top="120" @click="showActionModel = false">
 			<view class="chat-content">
 				<block v-for="(item,index) in msgList" :key="index">
 					<view class="date-time">{{item.dateTime}}</view>
@@ -23,21 +23,50 @@
 				</block>
 			</view>
 		</scroll-view>
-		<!-- 输入框 -->
-		<view class="msg-input-box">
-			<view class="left-box">
-				<u-icon name="map" size="30"></u-icon>
+		<!-- 底部 -->
+		<view class="bottom-box" :style="{bottom:`${keyboardHeight}px` }">
+			<!-- 输入框 -->
+			<view class="msg-input-box">
+				<view class="left-box">
+					<u-icon name="map" size="30"></u-icon>
+				</view>
+				<view class="center-box">
+					<u--input
+					    class="input"
+					    placeholder="请输入内容"
+					    border="none"
+						confirmType="send"
+						:adjustPosition="false"
+					    v-model="msgContent"
+						@focus="focus"
+					  ></u--input>
+				</view>
+				<view class="right-box" >
+					<u-icon name="plus-circle" size="30" @click="showActionModel = !showActionModel"></u-icon>
+				</view>
 			</view>
-			<view class="center-box">
-				<u--input
-				    class="input"
-				    placeholder="请输入内容"
-				    border="none"
-				    v-model="msgContent"
-				  ></u--input>
-			</view>
-			<view class="right-box">
-				<u-icon name="plus-circle" size="30"></u-icon>
+			<!-- 功能模块弹出 -->
+			<view class="action-model" v-show="showActionModel">
+				<view class="action-item">
+					<u--image  src="https://img2.baidu.com/it/u=4262165586,826758146&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500" width="40px" height="40px" ></u--image>
+					<text class="action-txt">照片</text>
+				</view>
+				<view class="action-item">
+					<u--image  src="https://img1.baidu.com/it/u=4231743903,3429022810&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500" width="40px" height="40px" ></u--image>
+					<text class="action-txt">拍摄</text>
+				</view>
+				<view class="action-item">
+					<u--image  src="/static/temp/c1.png" width="40px" height="40px" ></u--image>
+					<text class="action-txt">视频通话</text>
+				</view>
+				<view class="action-item">
+					<u--image  src="/static/temp/c1.png" width="40px" height="40px" ></u--image>
+					<text class="action-txt">位置</text>
+				</view>
+				<view class="action-item">
+					<u--image  src="/static/temp/c1.png" width="40px" height="40px" ></u--image>
+					<text class="action-txt">红包</text>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -47,6 +76,8 @@
 	export default {
 		data(){
 			return {
+				showActionModel:false,//显示功能模块
+				keyboardHeight:0,//键盘弹出高度
 				msgContent:'',
 				msgList:[
 					{
@@ -129,14 +160,21 @@
 				]
 			}
 		},
+		onLoad() {
+			uni.onKeyboardHeightChange(res => {
+				this.keyboardHeight = res.height;
+			});
+		},
 		methods:{
 			//跳转到用户详情页
 			jumpToUserDetail(citem){
-				console.log(111);
 				uni.previewImage({
-					
 					urls:[citem.avatar]
 				})
+			},
+			//输入框聚焦
+			focus(){
+				this.showActionModel = false
 			}
 		}
 	}
@@ -219,25 +257,46 @@
 				}
 			}
 		}
-		.msg-input-box{
+		.bottom-box{
 			position: fixed;
 			bottom: 0;
 			left: 0;
 			width: 100%;
-			min-height: 120upx;
-			background: #ccc;
-			display: flex;
-			align-items: center;
-			.left-box,.right-box{
-				padding: 0 20upx;
+			//输入框
+			.msg-input-box{
+				min-height: 120upx;
+				background: #e5e5e5;
+				display: flex;
+				align-items: center;
+				.left-box,.right-box{
+					padding: 0 20upx;
+				}
+				.center-box{
+					flex: 1;
+					.input{
+						height: 80upx;
+						line-height: 80upx;
+						padding: 0 16upx !important;
+						background: #fff;
+					}
+				}
 			}
-			.center-box{
-				flex: 1;
-				.input{
-					height: 80upx;
-					line-height: 80upx;
-					padding: 0 16upx !important;
-					background: #fff;
+			//功能模块
+			.action-model{
+				background: #e8f0ef;
+				display: flex;
+				flex-wrap: wrap;
+				.action-item{
+					flex-shrink: 0;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					flex:  0 0 25%;
+					padding: 26upx 0;
+					.action-txt{
+					     padding-top: 10upx;
+					}
 				}
 			}
 		}
