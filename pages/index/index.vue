@@ -4,7 +4,7 @@
 			<view class="nav-bar-spacing"></view>
 			<view class="titleNview-background" :style="{backgroundColor:titleNViewBackground}"></view>
 			<swiper class="swiper-wrap" circular @change="changeSwiper">
-				<swiper-item class="swiper-item" v-for="(item,index) in carouselList" :key="index">
+				<swiper-item class="swiper-item" v-for="(item,index) in bannerList" :key="index">
 					<image class="image" :src="item.src" />
 				</swiper-item>
 			</swiper>
@@ -12,7 +12,7 @@
 			<view class="swiper-dot">
 				<view class="num">{{swiperCurrent + 1}}</view>
 				<view class="sign">/</view>
-				<view class="num">{{carouselList.length}}</view>
+				<view class="num">{{bannerList.length}}</view>
 			</view>
 		</view>
 		<!-- 分类层 -->
@@ -208,19 +208,7 @@
 			return {
 				titleNViewBackground: '',
 				swiperCurrent: 0,
-				carouselList: [{
-						src: "/static/temp/banner3.jpg",
-						background: "rgb(203, 87, 60)",
-					},
-					{
-						src: "/static/temp/banner2.jpg",
-						background: "rgb(205, 215, 218)",
-					},
-					{
-						src: "/static/temp/banner4.jpg",
-						background: "rgb(183, 73, 69)",
-					}
-				],
+				bannerList: [],
 				goodsList: [{
 						image: "https://img13.360buyimg.com/n8/jfs/t1/30343/20/1029/481370/5c449438Ecb46a15b/2b2adccb6dc742fd.jpg",
 						image2: "http://pic.rmb.bdstatic.com/819a044daa66718c2c40a48c1ba971e6.jpeg",
@@ -271,25 +259,32 @@
 			}
 		},
 		onLoad() {
-			this.titleNViewBackground = this.carouselList[0].background;
 			this.loadBannerList();
 		},
 		onReady() {
 
 		},
 		methods: {
+			//获取banner
 			loadBannerList(){
+				uni.showLoading({
+					title:'数据加载中...'
+				})
 				this.$api.index.GetBannerList({}).then(res=>{
-					console.log(res);
+					if(res.status === 200){
+						this.bannerList = res.data
+						this.titleNViewBackground = this.bannerList[0].background;
+					};
+					uni.hideLoading();
 				}).catch(err=>{
-					
+					uni.hideLoading();
 				});
 				
 			},
 			changeSwiper(e) {
 				const index = e.detail.current;
 				this.swiperCurrent = index;
-				this.titleNViewBackground = this.carouselList[index].background;
+				this.titleNViewBackground = this.bannerList[index].background;
 			},
 			//跳转详情页
 			gotoDetail(){
