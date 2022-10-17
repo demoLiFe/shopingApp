@@ -4,8 +4,12 @@ import App from './App'
 import Vue from 'vue'
 import uView from 'uview-ui'
 Vue.use(uView)
+import api from './api/api.js'
+Vue.prototype.$api = api;
+
 Vue.config.productionTip = false
 App.mpType = 'app'
+
 const app = new Vue({
     ...App
 })

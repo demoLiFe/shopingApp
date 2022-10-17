@@ -272,11 +272,20 @@
 		},
 		onLoad() {
 			this.titleNViewBackground = this.carouselList[0].background;
+			this.loadBannerList();
 		},
 		onReady() {
 
 		},
 		methods: {
+			loadBannerList(){
+				this.$api.index.GetBannerList({}).then(res=>{
+					console.log(res);
+				}).catch(err=>{
+					
+				});
+				
+			},
 			changeSwiper(e) {
 				const index = e.detail.current;
 				this.swiperCurrent = index;
