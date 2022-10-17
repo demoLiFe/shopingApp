@@ -56,9 +56,9 @@
 			</view>
 			<scroll-view class="scoll-wraper" scroll-x="true">
 				<view class="s-content">
-					<view class="s-content-item" v-for="(item,index) in goodsList" :key="index" @click="gotoDetail(item)" >
+					<view class="s-content-item" v-for="(item,index) in seckillGoodsList" :key="index" @click="gotoDetail(item)" >
 						<image :src="item.image" mode="aspectFill"></image>
-						<text class="clamp">{{item.title}}</text>
+						<text class="clamp">{{item.name}}</text>
 						<text class="price">￥{{item.price}}</text>
 					</view>
 				</view>
@@ -74,15 +74,15 @@
 				</view>
 			</view>
 			<swiper class="swiper-wrap" circular>
-				<swiper-item class="swiper-item pd-0-32" v-for="(item,index) in goodsList" :key="index">
+				<swiper-item class="swiper-item pd-0-32" v-for="(item,index) in groupBuying" :key="index">
 					<view class="item-box">
 						<view class="item-left">
 							<image :src="item.image" />
 							<view class="content-box">
-								<text class="title clamp">古黛妃 短袖t恤女夏装2019新款韩版宽松</text>
+								<text class="title clamp">{{item.name}}</text>
 								<view class="price-box">
 									<text class="price">￥{{item.price}}</text>
-									<text class="n-price">￥{{item.price}}</text>
+									<text class="n-price">￥{{item.nprice}}</text>
 								</view>
 								<view class="progress-box">
 									<view class="p-left">
@@ -90,17 +90,17 @@
 											<view class="progress-inner"></view>
 										</view>
 									</view>
-									<text>6人成团</text>
+									<text>{{item.personNum}}人成团</text>
 								</view>
 							</view>
 						</view>
 						<view class="item-right">
-							<image :src="item.image" />
+							<image :src="item.image1" />
 							<view class="content-box">
-								<text class="title clamp">古黛妃 短袖t恤女夏装2019新款韩版宽松</text>
+								<text class="title clamp">{{item.name1}}</text>
 								<view class="price-box">
-									<text class="price">￥{{item.price}}</text>
-									<text class="n-price">￥{{item.price}}</text>
+									<text class="price">￥{{item.price1}}</text>
+									<text class="n-price">￥{{item.nprice1}}</text>
 								</view>
 								<view class="progress-box">
 									<view class="p-left">
@@ -108,7 +108,7 @@
 											<view class="progress-inner"></view>
 										</view>
 									</view>
-									<text>6人成团</text>
+									<text>{{item.personNum1}}人成团</text>
 								</view>
 							</view>
 						</view>
@@ -208,7 +208,9 @@
 			return {
 				titleNViewBackground: '',
 				swiperCurrent: 0,
-				bannerList: [],
+				bannerList: [],//banner
+				seckillGoodsList:[],//秒杀
+				groupBuying:[],//团购
 				goodsList: [{
 						image: "https://img13.360buyimg.com/n8/jfs/t1/30343/20/1029/481370/5c449438Ecb46a15b/2b2adccb6dc742fd.jpg",
 						image2: "http://pic.rmb.bdstatic.com/819a044daa66718c2c40a48c1ba971e6.jpeg",
@@ -260,6 +262,8 @@
 		},
 		onLoad() {
 			this.loadBannerList();
+			this.loadSecKillGoodsList();
+			this.loadGroupBuying();
 		},
 		onReady() {
 
@@ -280,6 +284,34 @@
 					uni.hideLoading();
 				});
 				
+			},
+			//获取秒杀商品
+			loadSecKillGoodsList(){
+				uni.showLoading({
+					title:'数据加载中...'
+				});
+				this.$api.index.GetSecKillGoodsList({}).then(res=>{
+					if(res.status === 200){
+						this.seckillGoodsList = res.data;
+					};
+					uni.hideLoading();
+				}).catch(err=>{
+					uni.hideLoading();
+				});
+			},
+			//获取精品团购商品
+			loadGroupBuying(){
+				uni.showLoading({
+					title:'数据加载中...'
+				});
+				this.$api.index.GetGroupBuying({}).then(res=>{
+					if(res.status === 200){
+						this.groupBuying = res.data;
+					};
+					uni.hideLoading();
+				}).catch(err=>{
+					uni.hideLoading();
+				})
 			},
 			changeSwiper(e) {
 				const index = e.detail.current;
@@ -330,7 +362,7 @@
 				width: 100%;
 				height: 100%;
 				padding: 0 28upx;
-
+                // box-shadow: 0upx 0upx 10upx #000;   
 				.image {
 					width: 100%;
 					height: 100%;

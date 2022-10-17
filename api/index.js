@@ -5,6 +5,15 @@ export default {
 		return axios.get('/api/banner/list',{
 			params
 		})
+	},
+	GetSecKillGoodsList(params){
+		return axios.get('/api/seckill/goods/list',{
+			params
+		})
+	},
+	GetGroupBuying(params){
+		return axios.get('/api/groupbuying/goods/list',{
+			params
+		})
 	}
-	
 }
