@@ -9,9 +9,9 @@ const services = axios.create({
 services.interceptors.request.use(
    config=>{
 	   console.log(config);
-	   // config.validateStatus = function(status) {
-	   // 	return status === 200 || status === 401
-	   // }
+	   config.validateStatus = function(status) {
+	   	 return status === 200 || status === 401
+	   }
 	   config.headers = {
 		   // token:'ab_adw2sd22e2'
 	   }
@@ -24,11 +24,13 @@ services.interceptors.request.use(
 
 services.interceptors.response.use(
    response =>{
-	   console.log(response);
-	   return response.data
+	   if(response.status === 200){
+		   return response.data
+	   }
    },
    err => {
-	   
+	   console.log(err);
+	  return Promise.reject(err)
    }
 )
 axios.defaults.adapter = function(config) {
@@ -57,6 +59,7 @@ axios.defaults.adapter = function(config) {
 			},
 			fail: function(err) {
 				if (err) {
+					console.log(11,err);
 					// settle(resolve, reject, {
 					// 	errMsg: '网络不给力'
 					// }, null)
@@ -65,5 +68,4 @@ axios.defaults.adapter = function(config) {
 		})
 	})
 }
-
 export default services

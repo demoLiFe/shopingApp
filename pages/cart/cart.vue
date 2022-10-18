@@ -25,7 +25,7 @@
 					</view>
 				</view>
 			</view>
-			<u-loadmore :status="loadStatus"  :loadmoreText="loadText.loadmoreText" :loading-text="loadText.loadingText" :nomore-text="loadText.nomoreText"  dashed line />
+			<u-loadmore v-if="cartList.length > 0" :status="loadStatus"  :loadmoreText="loadText.loadmoreText" :loading-text="loadText.loadingText" :nomore-text="loadText.nomoreText"  dashed line />
 		</scroll-view>
 		<!-- 底部按钮容器 -->
 		<view class="bottom-btn-box">
@@ -97,10 +97,13 @@
 			},
 			//滚动到底触发
 			scrollToLower(e){
-				console.log('到底啦');
 				this.loadStatus = 'loading';
 				this.pageNum ++ ;
-				this.loadShopingCartList();
+				if(this.pageNum < 5){//模拟只有5页数据 后期更改
+					this.loadShopingCartList();
+				}else{
+					this.loadStatus = 'nomore';
+				}
 			},
 			//全选
 			checkAll() {
