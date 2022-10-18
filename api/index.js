@@ -15,5 +15,20 @@ export default {
 		return axios.get('/api/groupbuying/goods/list',{
 			params
 		})
+	},
+	GetCateGoodsList(params){
+		return axios.get('/api/cate/goods/list',{
+			params
+		})
+	},
+	GetNavList(params){
+		return axios.get('/api/nav/list',{
+			params
+		})
+	},
+	GetLikeGoodsList(params){
+		return axios.get('/api/like/goods/list',{
+			params
+		})
 	}
 }

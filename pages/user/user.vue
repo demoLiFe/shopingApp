@@ -8,8 +8,8 @@
 			</view>
 			<!-- 会员卡 -->
 			<view class="vip-card-box">
-				<text class="level">会员1</text>
-				<text class="btn">升级会员</text>
+				<text class="level">你还未开通会员</text>
+				<!-- <text class="btn"></text> -->
 			</view>
 		</view>
 		<!-- 底部覆盖 -->
@@ -184,7 +184,7 @@
 <style lang="scss" scoped>
 	.bg-img{
 		height: 520upx;
-		background-image: url('../../static/user-bg.jpg');
+		background-image: linear-gradient(0deg, #f34167,#be1d86 50%,#fe436c );
 		background-size: 100% 100%;
 		padding: 100upx 30upx 0;
 		z-index: 88;
@@ -200,7 +200,7 @@
 			}
 			.name{
 				font-size: 38upx;
-				color: #303133;
+				color: #fff;
 				margin-left: 20upx;
 			}
 		}
@@ -210,12 +210,14 @@
 			height: 240upx;
 			padding: 20upx 24upx;
 			border-radius: 16uxp 16upx 0 0;
-			background-image: url('/static/temp/ad2.jpg');
+			background-image: url('/static/vip-card-bg.png');
+			background-size: 100% 100%;
+			background-repeat: no-repeat;
 			.level{
 				position: absolute;
 				left: 20upx;
 				top: 20upx;
-				color: #F50000;
+				color: #ffff00;
 			}
 			.btn{
 				position: absolute;
