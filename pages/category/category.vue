@@ -2,8 +2,8 @@
 	<view class="cate">
 		<view class="left-aside">
 			<scroll-view class="scroll-view" :scroll-y="true">
-				<view class="left-item" v-for="(item,index) in leftList" :key="index"
-					:class="leftCurrent === index ? 'left-item-active' :''" @click="tabHandleClick(index)">
+				<view class="left-item" v-for="(item,index) in navList" :key="index"
+					:class="navCurrentId === item.id ? 'left-item-active' :''" @click="tabHandleClick(item)">
 					<text>{{item.title}}</text>
 				</view>
 			</scroll-view>
@@ -25,6 +25,7 @@
 				</view>
 			</scroll-view>
 		</view>
+		<u-toast ref="uToast"></u-toast>
 	</view>
 </template>
 
@@ -32,160 +33,57 @@
 	export default {
 		data() {
 			return {
-				leftCurrent: 0,
-				leftList: [{
-						title: '手机数码'
-					},
-					{
-						title: '鲜花礼品'
-					},
-					{
-						title: '男装女装'
-					},
-					{
-						title: '母婴用品'
-					},
-					{
-						title: '儿童玩具'
-					},
-				],
-				goodsList:[
-					{
-						title:'手机通讯',
-						list:[
-							{
-								id: 8,
-								pid: 5,
-								name: '全面屏手机',
-								picture: '/static/temp/cate2.jpg'
-							},
-							{
-								id: 9,
-								pid: 5,
-								name: '游戏手机',
-								picture: '/static/temp/cate3.jpg'
-							},
-							{
-								id: 10,
-								pid: 5,
-								name: '老人机',
-								picture: '/static/temp/cate1.jpg'
-							},
-							{
-								id: 11,
-								pid: 5,
-								name: '拍照手机',
-								picture: '/static/temp/cate4.jpg'
-							},
-							{
-								id: 12,
-								pid: 5,
-								name: '女性手机',
-								picture: '/static/temp/cate5.jpg'
-							},
-							{
-								id: 14,
-								pid: 6,
-								name: '合约机',
-								picture: '/static/temp/cate1.jpg'
-							},
-							{
-								id: 15,
-								pid: 6,
-								name: '选好卡',
-								picture: '/static/temp/cate4.jpg'
-							},
-						]
-					},
-					{
-						title:'礼品鲜花',
-						list:[
-                           {
-                           	id: 19,
-                           	pid: 17,
-                           	name: '公益摆件',
-                           	picture: '/static/temp/cate7.jpg'
-                           },
-                           {
-                           	id: 20,
-                           	pid: 17,
-                           	name: '创意礼品',
-                           	picture: '/static/temp/cate8.jpg'
-                           },
-                           {
-                           	id: 21,
-                           	pid: 18,
-                           	name: '鲜花',
-                           	picture: '/static/temp/cate9.jpg'
-                           },
-                           {
-                           	id: 22,
-                           	pid: 18,
-                           	name: '每周一花',
-                           	picture: '/static/temp/cate10.jpg'
-                           },
-                           {
-                           	id: 23,
-                           	pid: 18,
-                           	name: '卡通花束',
-                           	picture: '/static/temp/cate11.jpg'
-                           },
-                           {
-                           	id: 24,
-                           	pid: 18,
-                           	name: '永生花',
-                           	picture: '/static/temp/cate12.jpg'
-                           },
-						]
-					},
-					{
-						title:'男装女装',
-						list:[
-					      {
-					      	id: 27,
-					      	pid: 25,
-					      	name: '男士T恤',
-					      	picture: '/static/temp/cate13.jpg'
-					      },
-					      {
-					      	id: 28,
-					      	pid: 25,
-					      	name: '男士外套',
-					      	picture: '/static/temp/cate14.jpg'
-					      },
-					      {
-					      	id: 29,
-					      	pid: 26,
-					      	name: '裙装',
-					      	picture: '/static/temp/cate15.jpg'
-					      },
-					      {
-					      	id: 30,
-					      	pid: 26,
-					      	name: 'T恤',
-					      	picture: '/static/temp/cate16.jpg'
-					      },
-					      {
-					      	id: 31,
-					      	pid: 26,
-					      	name: '上装',
-					      	picture: '/static/temp/cate15.jpg'
-					      },
-					      {
-					      	id: 32,
-					      	pid: 26,
-					      	name: '下装',
-					      	picture: '/static/temp/cate16.jpg'
-					      },
-						]
-					}
-				]
+				navCurrentId: '',
+				navList: [],
+				goodsList:[]
 			}
 		},
+		onLoad() {
+			this.loadNavList();
+		},
 		methods: {
+			//获取左边导航
+			loadNavList(){
+				uni.showLoading({
+					title:'数据加载中..'
+				});
+				this.$api.category.GetNavList({}).then(res=>{
+					if(res.status === 200){
+						this.navList = res.data;
+						if(this.navList.length > 0){
+							this.navCurrentId = this.navList[0].id;//默认选中第一个
+							this.loadNavGoodsList();
+						};
+					};
+					uni.hideLoading();
+				}).catch(err=>{
+					this.$refs.uToast.show({
+						message: err
+					});
+					uni.hideLoading();
+				});
+			},
+			//获取右侧商品
+			loadNavGoodsList(){
+				uni.showLoading({
+					title:'数据加载中..'
+				});
+				this.$api.category.GetNavGoodsList({id:this.navCurrentId}).then(res=>{
+					if(res.status === 200){
+						this.goodsList = res.data;
+					};
+					uni.hideLoading();
+				}).catch(err=>{
+					this.$refs.uToast.show({
+						message: err
+					});
+					uni.hideLoading();
+				});
+			},
 			//点击左边导航
-			tabHandleClick(index) {
-				this.leftCurrent = index;
+			tabHandleClick(item) {
+				this.navCurrentId = item.id;
+				this.loadNavGoodsList()
 			},
 			//商品列表
 			jumpToGoodsList(){

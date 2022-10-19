@@ -18,8 +18,8 @@
 		<!-- 导航 -->
 		<view class="nav-section">
 			<swiper class="swiper-wrap" circular @change="changeNav">
-				<swiper-item class="swiper-item" v-for="(item,index) in navList" :key="index">
-					<view class="nav-item" v-for="(citem,cindex) in item.list">
+				<swiper-item class="swiper-item"  v-for="(item,index) in navList" :key="index">
+					<view class="nav-item" hover-class="nav-item-hover" hover-stay-time="60" v-for="(citem,cindex) in item.list">
 						<image :src="citem.icon"></image>
 						<text>{{citem.title}}</text>
 					</view>
@@ -309,7 +309,7 @@
 			//切换banner
 			changeBanner(e) {
 				this.bannerCurrent = e.detail.current;
-				this.titleNViewBackground = this.bannerList[index].background;
+				this.titleNViewBackground = this.bannerList[this.bannerCurrent].background;
 			},
 			//切换导航模块
 			changeNav(e) {
@@ -441,6 +441,9 @@
 							opacity: .7;
 							box-shadow: 4upx 4upx 20upx rgba(250, 67, 106, 0.3);
 						}
+					}
+					.nav-item-hover{
+						background: #F5F5F5;
 					}
 				}
 			}

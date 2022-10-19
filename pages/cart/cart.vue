@@ -25,7 +25,7 @@
 					</view>
 				</view>
 			</view>
-			<u-loadmore v-if="cartList.length > 0" :status="loadStatus"  :loadmoreText="loadText.loadmoreText" :loading-text="loadText.loadingText" :nomore-text="loadText.nomoreText"  dashed line />
+			<u-loadmore v-if="cartList.length > 6" :status="loadStatus"  :loadmoreText="loadText.loadmoreText" :loading-text="loadText.loadingText" :nomore-text="loadText.nomoreText"  dashed line />
 		</scroll-view>
 		<!-- 底部按钮容器 -->
 		<view class="bottom-btn-box">
