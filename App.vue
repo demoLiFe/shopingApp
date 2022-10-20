@@ -4,7 +4,7 @@
 			console.log('App Launch')
 		},
 		onShow: function() {
-			console.log('App Show')
+			this.$store.commit('setUserInfo',uni.getStorageSync('userInfo') || {})
 		},
 		onHide: function() {
 			console.log('App Hide')

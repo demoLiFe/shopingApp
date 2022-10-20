@@ -2,7 +2,7 @@
 	<view class="setting">
 		<view class="list-wrap">
 			<list-cell title="个人资料"></list-cell>
-			<list-cell title="收货地址"></list-cell>
+			<list-cell title="收货地址" url="/pages/user/address"></list-cell>
 			<list-cell title="个人资料"></list-cell>
 			<list-cell title="实名认证"></list-cell>
 			<view class="mg-t-16">
@@ -13,14 +13,15 @@
 				</list-cell>
 			</view>
 			<view class="mg-t-16">
-				<list-cell title="清除缓存"></list-cell>
+				<list-cell title="清除缓存" :canJump="false"></list-cell>
 				<list-cell title="关于我们"></list-cell>
-				<list-cell title="检查更新" desc="当前版本1.0.0beta"></list-cell>
+				<list-cell title="检查更新" desc="当前版本1.0.0beta" :canJump="false"></list-cell>
 			</view>
 		</view>
 		<view class="log-out-btn" @click="logOut">
 			<text>退出登录</text>
 		</view>
+		<u-toast ref="uToast"></u-toast>
 	</view>
 </template>
 
@@ -39,11 +40,24 @@
 			logOut(){
 				uni.showModal({
 					title:'是否退出登陆？',
-					success(res) {
+					success:(res)=>{
 						if(res.confirm){
-							uni.showToast({
-								icon:'none',
-								title:'退出失败'
+							uni.showLoading({
+								title:'退出中..'
+							});
+							this.$api.user.Logout({}).then(res=>{
+								if(res.status === 200){
+									this.$store.commit('setUserInfo',{});
+									uni.reLaunch({
+										url:'/pages/login/login'
+									});
+								};
+								uni.hideLoading();
+							}).catch(err=>{
+								this.$refs.uToast.show({
+									message: err
+								});
+								uni.hideLoading();
 							})
 						}
 					}

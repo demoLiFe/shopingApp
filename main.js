@@ -6,6 +6,8 @@ import uView from 'uview-ui'
 Vue.use(uView)
 import api from './api/api.js'
 Vue.prototype.$api = api;
+import store from './store/index.js';
+Vue.prototype.$store = store;
 
 Vue.config.productionTip = false
 App.mpType = 'app'

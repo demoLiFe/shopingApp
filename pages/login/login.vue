@@ -10,7 +10,7 @@
 				</u-form-item>
 				<u-form-item class="mg-top-20" leftIcon="lock" leftIconStyle="font-size: 22px;color: #909399;" prop="password"
 					borderBottom>
-					<u--input v-model="form.password" border="none">
+					<u--input type="password" v-model="form.password" border="none">
 					</u--input>
 				</u-form-item>
 			</u--form>
@@ -22,6 +22,7 @@
 				<text @click="jumpToRegist">立即注册</text>
 			</view>
 		</view>
+		<u-toast ref="uToast"></u-toast>
 	</view>
 </template>
 
@@ -42,8 +43,8 @@
 					}],
 				},
 				form: {
-					account: '',
-					password: ''
+					account: 'syh-123456',
+					password: 'pwd12345678'
 				}
 			}
 		},
@@ -56,7 +57,30 @@
 		methods: {
            submit(){
 			  this.$refs.uForm.validate().then(res => {
-			  	uni.$u.toast('校验通过')
+				if(res){//校验通过
+				    uni.showLoading({
+				    	title:'登陆中..'
+				    });
+					this.$api.user.Login(this.form).then(res=>{
+						if(res.status === 200){
+							this.$store.commit('setUserInfo',res.data)
+							uni.switchTab({
+								url:'/pages/user/user'
+							});
+						}else{
+							this.$refs.uToast.show({
+								type: 'error',
+								message: res.msg
+							});
+						};
+						uni.hideLoading();
+					}).catch(err=>{
+						uni.hideLoading();
+						this.$refs.uToast.show({
+							message: err
+						});
+					});
+				};
 			  }).catch(errors => {
 			  	uni.$u.toast('校验失败',errors)
 			  })

@@ -29,20 +29,19 @@
 			showBorder:{
 				type:Boolean,
 				default:true
+			},
+			canJump:{
+				type:Boolean,
+				default:true
 			}
 		},
 		methods:{
 			jumpToPage(){
-				if(!!this.url){
+				if(!!this.url && this.canJump){
 					uni.navigateTo({
 						url:this.url
 					})
-				}else{
-					uni.showToast({
-						icon:'none',
-						title:'url不能为空'
-					})
-				};
+				}
 			}
 		}
 	}

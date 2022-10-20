@@ -3,12 +3,12 @@
 		<view class="bg-img">
 			<!-- 用户信息 -->
 			<view class="user-info-box">
-				<image src="/static/missing-face.png" mode=""></image>
-				<text class="name">{{userInfo.name}}</text>
+				<image :src="userInfo.avatar || '/static/missing-face.png'" mode=""></image>
+				<text class="name" @click="jumpToLogin">{{userInfo.userName || '未登录'}}</text>
 			</view>
 			<!-- 会员卡 -->
 			<view class="vip-card-box">
-				<text class="level">你还未开通会员</text>
+				<text class="level">{{(!userInfo.vipLevel || userInfo.vipLevel === 0) ? '你还未开通会员' : `会员${userInfo.vipLevel}级` }}</text>
 				<!-- <text class="btn"></text> -->
 			</view>
 		</view>
@@ -16,17 +16,17 @@
 		<view class="cover-box" :style="{transform:`translateY(${coverMove}upx)`}" @touchstart="coverTouchStart" @touchmove="coverTouchMove" @touchend="coverTouchEnd">
 			<view class="arc-bg"></view>
 			<!-- 钱包 -->
-			<view class="moneybag-section bg-f">
+			<view class="moneybag-section bg-f" >
 				<view class="item">
-					<text class="num">888</text>
+					<text class="num">{{ Object.keys(userInfo).length > 0 ? userInfo.moneyBag.money : 0}}</text>
 					<text>余额</text>
 				</view>
 				<view class="item">
-					<text class="num">20</text>
+					<text class="num">{{ Object.keys(userInfo).length > 0 ? userInfo.moneyBag.coupon : 0 }}</text>
 					<text>优惠券</text>
 				</view>
 				<view class="item">
-					<text class="num">10000</text>
+					<text class="num">{{Object.keys(userInfo).length > 0 ? userInfo.moneyBag.integral : 0}}</text>
 					<text>积分</text>
 				</view>
 			</view>
@@ -68,7 +68,7 @@
 					<text class="font-icon icon-iconfontweixin" style="color: #e07472;font-size: 38upx;"></text>
 					<view class="right">
 						<text class="cell-title">我的钱包</text>
-						<text class="cell-des">你的会员还有10天到期</text>
+						<text class="cell-des">你的会员还有{{userInfo.vipTimeLimit}}天到期</text>
 						<text class="font-icon icon-you"></text>
 					</view>
 				</view>
@@ -79,7 +79,7 @@
 						<text class="font-icon icon-you"></text>
 					</view>
 				</view>
-				<view class="list-cell" hover-class="cell-hover" hover-stay-time="60" >
+				<view class="list-cell" hover-class="cell-hover" hover-stay-time="60" @click="handleShare" >
 					<text class="font-icon icon-share" style="color: #9789f7;font-size: 38upx;"></text>
 					<view class="right">
 						<text class="cell-title">分享</text>
@@ -115,12 +115,10 @@
 </template>
 
 <script>
+	import {mapState} from 'vuex'
 	export default {
 		data(){
 			return {
-				userInfo:{
-					name:'admin'
-				},
 				historyList:[
 					{
 						image:'https://img13.360buyimg.com/n8/jfs/t1/30343/20/1029/481370/5c449438Ecb46a15b/2b2adccb6dc742fd.jpg'
@@ -142,7 +140,29 @@
 				coverMove:0,
 			}
 		},
+		computed:{
+			...mapState({
+				userInfo:state => state.user.userInfo,
+			})
+		},
+		onNavigationBarButtonTap(e){
+			if(e.index === 0){//设置
+				uni.navigateTo({
+					url:'/pages/user/setting'
+				})
+			}else if(e.index === 1){//消息
+				uni.navigateTo({
+					url:'/pages/message/message'
+				});
+			};
+		},
 		methods:{
+			//去登陆
+			jumpToLogin(){
+				uni.navigateTo({
+					url:'/pages/login/login'
+				})
+			},
 			coverTouchStart(e){
 				this.startY = e.touches[0].pageY; 
 				return;
@@ -175,7 +195,11 @@
 				uni.navigateTo({
 					url:'/pages/user/setting'
 				})
-			}
+			},
+			//分享
+			handleShare(){
+				
+			},
 			
 		}
 	}
