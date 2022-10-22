@@ -1,12 +1,11 @@
 <template>
 	<view class="setting">
 		<view class="list-wrap">
-			<list-cell title="个人资料"></list-cell>
+			<list-cell title="个人资料" url="/pages/user/userInfo"></list-cell>
 			<list-cell title="收货地址" url="/pages/user/address"></list-cell>
-			<list-cell title="个人资料"></list-cell>
 			<list-cell title="实名认证"></list-cell>
 			<view class="mg-t-16">
-				<list-cell title="消息推送">
+				<list-cell title="消息推送" :canJump="false">
 					<template v-slot:right>
 						<switch checked color="#e07472" style="transform: scale(0.8);" />
 					</template>

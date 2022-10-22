@@ -3,12 +3,12 @@
 		<view class="bg-img">
 			<!-- 用户信息 -->
 			<view class="user-info-box">
-				<image :src="userInfo.avatar || '/static/missing-face.png'" mode=""></image>
-				<text class="name" @click="jumpToLogin">{{userInfo.userName || '未登录'}}</text>
+				<image :src="hasLogin ? userInfo.avatar : '/static/missing-face.png'" mode=""></image>
+				<text class="name" @click="jumpToLogin">{{hasLogin ? userInfo.userName : '未登录'}}</text>
 			</view>
 			<!-- 会员卡 -->
 			<view class="vip-card-box">
-				<text class="level">{{(!userInfo.vipLevel || userInfo.vipLevel === 0) ? '你还未开通会员' : `会员${userInfo.vipLevel}级` }}</text>
+				<text class="level">{{(!hasLogin || userInfo.vipLevel === 0) ? '你还未开通会员' : `会员${userInfo.vipLevel}级` }}</text>
 				<!-- <text class="btn"></text> -->
 			</view>
 		</view>
@@ -18,15 +18,15 @@
 			<!-- 钱包 -->
 			<view class="moneybag-section bg-f" >
 				<view class="item">
-					<text class="num">{{ Object.keys(userInfo).length > 0 ? userInfo.moneyBag.money : 0}}</text>
+					<text class="num">{{ hasLogin ? userInfo.moneyBag.money : 0}}</text>
 					<text>余额</text>
 				</view>
 				<view class="item">
-					<text class="num">{{ Object.keys(userInfo).length > 0 ? userInfo.moneyBag.coupon : 0 }}</text>
+					<text class="num">{{ hasLogin ? userInfo.moneyBag.coupon : 0 }}</text>
 					<text>优惠券</text>
 				</view>
 				<view class="item">
-					<text class="num">{{Object.keys(userInfo).length > 0 ? userInfo.moneyBag.integral : 0}}</text>
+					<text class="num">{{ hasLogin ? userInfo.moneyBag.integral : 0}}</text>
 					<text>积分</text>
 				</view>
 			</view>
@@ -64,11 +64,11 @@
 			</view>
 			<!-- 功能列表 -->
 			<view class="action-list bg-f">
-				<view class="list-cell" hover-class="cell-hover" hover-stay-time="60" >
+				<view class="list-cell" hover-class="cell-hover" hover-stay-time="60" @click="jumpToMoneyBag">
 					<text class="font-icon icon-iconfontweixin" style="color: #e07472;font-size: 38upx;"></text>
 					<view class="right">
 						<text class="cell-title">我的钱包</text>
-						<text class="cell-des">你的会员还有{{userInfo.vipTimeLimit}}天到期</text>
+						<text class="cell-des" v-if="hasLogin && userInfo.vipLevel !== 0">你的会员还有{{userInfo.vipTimeLimit}}天到期</text>
 						<text class="font-icon icon-you"></text>
 					</view>
 				</view>
@@ -143,7 +143,10 @@
 		computed:{
 			...mapState({
 				userInfo:state => state.user.userInfo,
-			})
+			}),
+			hasLogin(){
+				return !!this.userInfo && Object.keys(this.userInfo).length > 0 
+			},
 		},
 		onNavigationBarButtonTap(e){
 			if(e.index === 0){//设置
@@ -159,10 +162,13 @@
 		methods:{
 			//去登陆
 			jumpToLogin(){
-				uni.navigateTo({
-					url:'/pages/login/login'
-				})
+				if(!this.hasLogin){
+					uni.navigateTo({
+						url:'/pages/login/login'
+					})
+				};
 			},
+			
 			coverTouchStart(e){
 				this.startY = e.touches[0].pageY; 
 				return;
@@ -180,15 +186,33 @@
 			},
 			//跳转到订单
 			jumpToOrderList(type){
-				uni.navigateTo({
-					url:`/pages/user/order?type=${type}`
-				})
+				if(this.hasLogin){
+					uni.navigateTo({
+						url:`/pages/user/order?type=${type}`
+					})
+				}else{
+					this.whetherJumpToLogin()
+				};
+			},
+			//我的钱包
+			jumpToMoneyBag(){
+				if(this.hasLogin){
+					uni.navigateTo({
+						url:'/pages/user/moneyBag',
+					})
+				}else{
+					this.whetherJumpToLogin()
+				};
 			},
 			//跳转到地址管理
 			jumpToAddress(){
-				uni.navigateTo({
-					url:'/pages/user/address'
-				})
+				if(this.hasLogin){
+					uni.navigateTo({
+						url:'/pages/user/address'
+					})
+				}else{
+					this.whetherJumpToLogin();
+				};
 			},
 			//跳转到设置
 			jumpToSetting(){

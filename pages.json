@@ -120,6 +120,32 @@
 			}
 		},
 		{
+			"path": "pages/user/moneyBag",
+			"style": {
+				"navigationBarTitleText": "我的钱包",
+				"navigationBarBackgroundColor": "#f34167",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/user/userInfo",
+			"style": {
+				"navigationBarTitleText": "个人信息"
+			}
+		},
+		{
+			"path": "pages/user/autograph",
+			"style": {
+				"navigationBarTitleText": "签名"
+			}
+		},
+		{
+			"path": "pages/user/qrcode",
+			"style": {
+				"navigationBarTitleText": "我的二维码"
+			}
+		},
+		{
 			"path": "pages/login/login",
 			"style": {
 				"navigationStyle": "custom"
