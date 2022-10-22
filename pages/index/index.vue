@@ -19,7 +19,7 @@
 		<view class="nav-section">
 			<swiper class="swiper-wrap" circular @change="changeNav">
 				<swiper-item class="swiper-item"  v-for="(item,index) in navList" :key="index">
-					<view class="nav-item" hover-class="nav-item-hover" hover-stay-time="60" v-for="(citem,cindex) in item.list">
+					<view class="nav-item" hover-class="nav-item-hover" hover-stay-time="60" v-for="(citem,cindex) in item.list" :key="citem.title">
 						<image :src="citem.icon"></image>
 						<text>{{citem.title}}</text>
 					</view>

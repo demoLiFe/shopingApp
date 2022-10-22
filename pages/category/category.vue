@@ -185,7 +185,7 @@
 								image {
 									height: 140upx;
 									width: 140upx;
-									background: #ccc;
+									// background: #ccc;
 								}
 
 							}

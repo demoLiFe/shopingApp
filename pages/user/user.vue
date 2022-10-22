@@ -13,7 +13,7 @@
 			</view>
 		</view>
 		<!-- 底部覆盖 -->
-		<view class="cover-box" :style="{transform:`translateY(${coverMove}upx)`}" @touchstart="coverTouchStart" @touchmove="coverTouchMove" @touchend="coverTouchEnd">
+		<view class="cover-box" :style="{transform:`translateY(${coverMove}rpx)`}" @touchstart.prevent="coverTouchStart" @touchmove="coverTouchMove" @touchend="coverTouchEnd">
 			<view class="arc-bg"></view>
 			<!-- 钱包 -->
 			<view class="moneybag-section bg-f" >
@@ -258,7 +258,7 @@
 			height: 240upx;
 			padding: 20upx 24upx;
 			border-radius: 16uxp 16upx 0 0;
-			background-image: url('/static/vip-card-bg.png');
+			background: url(../../static/vip-card-bg.png);
 			background-size: 100% 100%;
 			background-repeat: no-repeat;
 			.level{
@@ -283,6 +283,7 @@
 		position: relative;
 		margin-top: -140upx;
 		background: #f5f5f5;
+		background-repeat: no-repeat;
 		padding:0 30upx;
 		transition: transform 0.3s cubic-bezier(0.21, 1.93, 0.53, 0.64) 0s;
 		.arc-bg{
@@ -291,8 +292,9 @@
 			left: 0;
 			top:-36upx;
 			height: 36upx;
-			background: url('../../static/arc.png');
+			background: url(../../static/arc.png);
 			background-size: 100% 100%;
+			background-repeat: no-repeat;
 		}
 		.moneybag-section{
 			border-radius: 10upx;

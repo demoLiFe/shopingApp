@@ -120,7 +120,9 @@
 					return v.checked
 				});
 				this.computedTotal();
+				// #ifndef MP
 				this.$forceUpdate()
+				// #endif
 			},
 			//计算总金额
 			computedTotal() {
