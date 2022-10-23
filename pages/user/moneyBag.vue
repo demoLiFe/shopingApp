@@ -14,50 +14,25 @@
 				<u-icon name="close" @click="showPopup = false"></u-icon>
 			</view>
 			<view class="grid">
-				<view class="grid-item">
-					<view class="content-item">
-						<text>30元</text>
-					</view>
-				</view>
-				<view class="grid-item">
-					<view class="content-item">
-						<text>100元</text>
-					</view>
-				</view>
-				<view class="grid-item">
-					<view class="content-item">
-						<text>100元</text>
-					</view>
-				</view>
-				<view class="grid-item">
-					<view class="content-item">
-						<text>100元</text>
-					</view>
-				</view>
-				<view class="grid-item">
-					<view class="content-item">
-						<text>100元</text>
-					</view>
-				</view>
-				<view class="grid-item">
-					<view class="content-item">
-						<text>100元</text>
-					</view>
-				</view>
-				<view class="grid-item">
-					<view class="content-item">
-						 <u--input
-						    class="input"
-						    v-if="showInput"
-						    placeholder="请输入"
-							fontSize="12"
-						    clearable
-						  >
-							  <template slot="suffix">
-								  <text>元</text>
-							  </template>
-						  </u--input>
-						<text v-else @click="showInput = true">自定义</text>
+				<view class="grid-item" v-for="(item,index) in moneyAmountList" :key="index">
+					<view class="content-item" :class="amountCurrent === index ? 'content-item-active' : ''" @click="amountCurrent = index">
+						<!-- 自定义金额 -->
+						<view class="custom-amount" v-if="item.amount === 'custom'">
+							<u--input
+							    class="input"
+							    v-if="showInput && amountCurrent === index"
+							    placeholder="请输入"
+								fontSize="12"
+							    clearable
+							  >
+								  <template slot="suffix">
+									  <text>元</text>
+								  </template>
+							  </u--input>
+							<text v-else @click="showInput = true">自定义</text>
+						</view>
+						<!-- 内置金额 -->
+						<text v-else>{{item.amount}}元</text>
 					</view>
 				</view>
 				<u-button class="btn" type="primary" text="下一步" @click="nextStep"></u-button>
@@ -71,9 +46,33 @@
 	export default {
 		data(){
 			return {
+				amountCurrent:0,
 				showPopup:false,
 				showInput:false,
-				inputMoney:''
+				inputMoney:'',
+				moneyAmountList:[
+					{
+					   amount:30,
+					},
+					{
+					   amount:100,
+					},
+					{
+					   amount:200,
+					},
+					{
+					   amount:300,
+					},
+					{
+					   amount:500,
+					},
+					{
+					   amount:1000,
+					},
+					{
+					   amount:'custom',
+					},
+				]
 			}
 		},
 		methods:{
@@ -158,10 +157,19 @@
 				width: 150upx;
 				font-size: 24upx;
 				background: #f8f8ff;
-				.input{
+				.custom-amount{
 					height: 100%;
 					width: 100%;
+					.input{
+						height: 100%;
+						width: 100%;
+					}
 				}
+				
+			}
+			.content-item-active{
+				color: #f34167;
+				border: 1px solid #f34167;
 			}
 		}
 		.btn{

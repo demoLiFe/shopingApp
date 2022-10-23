@@ -13,7 +13,7 @@
 			</view>
 		</view>
 		<!-- 底部覆盖 -->
-		<view class="cover-box" :style="{transform:`translateY(${coverMove}rpx)`}" @touchstart.prevent="coverTouchStart" @touchmove="coverTouchMove" @touchend="coverTouchEnd">
+		<view class="cover-box" :style="{transform:`translateY(${coverMove}rpx)`}" @touchstart="coverTouchStart" @touchmove="coverTouchMove" @touchend="coverTouchEnd">
 			<view class="arc-bg"></view>
 			<!-- 钱包 -->
 			<view class="moneybag-section bg-f" >
@@ -168,7 +168,6 @@
 					})
 				};
 			},
-			
 			coverTouchStart(e){
 				this.startY = e.touches[0].pageY; 
 				return;
@@ -191,6 +190,7 @@
 						url:`/pages/user/order?type=${type}`
 					})
 				}else{
+					
 					this.whetherJumpToLogin()
 				};
 			},

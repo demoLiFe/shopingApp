@@ -55,7 +55,7 @@
 						dateTime:'2022-10-12'
 					},
 					{
-						avatar:'/static/missing-face.png',
+						avatar:'/static/notice.png',
 						msg:'系统临时维护通知',
 						title:'系统通知',
 						msgType:1,

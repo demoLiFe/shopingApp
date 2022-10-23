@@ -1,7 +1,7 @@
 <template>
 	<view class="user-info">
 		<view class="user-avatar-box">
-			<u-avatar :src="userInfo.avatar" size="90"></u-avatar>
+			<u-avatar :src="userInfo.avatar" size="80"></u-avatar>
 			<text class="tip" @click="chooseAvatar">更换头像</text>
 		</view>
 		<view class="list">
