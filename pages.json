@@ -134,6 +134,12 @@
 			}
 		},
 		{
+			"path": "pages/user/introduction",
+			"style": {
+				"navigationBarTitleText": "个人介绍"
+			}
+		},
+		{
 			"path": "pages/user/autograph",
 			"style": {
 				"navigationBarTitleText": "签名"

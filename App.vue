@@ -45,4 +45,8 @@
    video {
    	box-sizing: border-box;
    }
+   
+   :root{
+	   --base-color:#fa436a
+   }
 </style>

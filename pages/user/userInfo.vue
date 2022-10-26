@@ -5,24 +5,24 @@
 			<text class="tip" @click="chooseAvatar">更换头像</text>
 		</view>
 		<view class="list">
-			<view class="list-cell" hover-class="cell-hover" hover-stay-time="60">
+			<view class="list-cell" >
 				<view class="list-cell-content">
 					<view class="title">
 						<text>用户昵称</text>
 					</view>
 					<view class="content">
-						<text>{{userInfo.nickName}}</text>
+						<u--input fontSize="26rpx" border="none"  placeholder="请输入昵称" v-model="userInfo.nickName" type="text" value="" />
 					</view>
 					<text class="font-icon icon-you"></text>
 				</view>
 			</view>
-			<view class="list-cell"  hover-class="cell-hover" hover-stay-time="60">
+			<view class="list-cell"  hover-class="cell-hover" hover-stay-time="60" @click="jumpToIntroduction">
 				<view class="list-cell-content">
 					<view class="title">
 						<text>个人介绍</text>
 					</view>
 					<view class="content">
-						<text>{{userInfo.introduce}}</text>
+						<text>{{!!userInfo.introduce ? userInfo.introduce : '这个人很懒，什么也没留下'  }}</text>
 					</view>
 					<text class="font-icon icon-you"></text>
 				</view>
@@ -61,10 +61,17 @@
 				</view>
 			</view>
 		</view>
+		<view class="btn-box">
+			<text>保存修改</text>
+		</view>
+		<view class="tips">
+			<text>提示:修改后内容需要保存后才生效</text>
+		</view>
 	</view>
 </template>
 
 <script>
+	import bus from '../../utils/bus.js'
 	export default {
 		data(){
 			return {
@@ -73,10 +80,15 @@
 					nickName:'',
 					introduce:'',
 					gender:'',
-					autograph:''
+					autograph:'',
 				}
 				
 			}
+		},
+		onLoad() {
+			bus.$on('introduceChange',(data)=>{
+				this.userInfo.introduce = data;
+			});
 		},
 		methods:{
 			//更换头像
@@ -98,6 +110,12 @@
 					success: (res) => {
 						this.userInfo.gender = itemList[res.tapIndex]
 					}
+				})
+			},
+			//跳转去个人介绍
+			jumpToIntroduction(){
+				uni.navigateTo({
+					url:`/pages/user/introduction?introduce=${JSON.stringify(this.userInfo.introduce)}`
 				})
 			},
 			//签名
@@ -143,13 +161,19 @@
 				align-items: center;
 				width: 100%;
 				border-top: 1px solid #E4E7ED;
+				overflow: hidden;
 				.title{
 					color: #303133;
 					font-size: 28upx;
 					width: 200upx;
 				}
 				.content{
+					font-size: 26upx;
 					flex: 1;
+					color: #ccc;
+					text-overflow: ellipsis;
+					overflow: hidden;
+					white-space: nowrap;
 				}
 			}
 		}
@@ -157,5 +181,17 @@
 			background: #F5F5F5;
 		}
 	}
-	
+	.btn-box{
+		padding: 30upx;
+		background: #fff;
+		text-align: center;
+		color: #f50000;
+		margin-top: 30upx;
+	}
+	.tips{
+		margin: 20upx 0;
+		text-align: center;
+		color: #f50000;
+		font-size: 24upx;
+	}
 </style>
