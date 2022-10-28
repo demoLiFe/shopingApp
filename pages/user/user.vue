@@ -190,7 +190,6 @@
 						url:`/pages/user/order?type=${type}`
 					})
 				}else{
-					
 					this.whetherJumpToLogin()
 				};
 			},

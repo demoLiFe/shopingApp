@@ -25,7 +25,8 @@
 					</view>
 				</view>
 			</view>
-			<u-loadmore v-if="cartList.length > 6" :status="loadStatus"  :loadmoreText="loadText.loadmoreText" :loading-text="loadText.loadingText" :nomore-text="loadText.nomoreText"  dashed line />
+			<u-loadmore v-if="cartList.length > 6" :status="loadStatus" :loadmoreText="loadText.loadmoreText"
+				:loading-text="loadText.loadingText" :nomore-text="loadText.nomoreText" dashed line />
 		</scroll-view>
 		<!-- 底部按钮容器 -->
 		<view class="bottom-btn-box">
@@ -53,8 +54,8 @@
 				isCheckAll: true,
 				totalMoney: 0,
 				cartList: [],
-				pageNum:1,
-				pageSize:20,
+				pageNum: 1,
+				pageSize: 20,
 				loadStatus: 'loadmore',
 				loadText: {
 					loadingText: '努力加载中..',
@@ -69,14 +70,14 @@
 		methods: {
 			//获取购物车列表
 			loadShopingCartList() {
-				if(this.pageNum === 1){
+				if (this.pageNum === 1) {
 					uni.showLoading({
 						title: '数据加载中..'
 					});
 				};
 				this.$api.shopingCart.GetShopingCartList({}).then(res => {
 					if (res.status === 200) {
-						this.cartList =this.cartList.concat(res.data);
+						this.cartList = this.cartList.concat(res.data);
 						this.loadStatus = 'loadmore';
 						this.cartList.forEach(v => {
 							if (this.isCheckAll) {
@@ -96,12 +97,12 @@
 				})
 			},
 			//滚动到底触发
-			scrollToLower(e){
+			scrollToLower(e) {
 				this.loadStatus = 'loading';
-				this.pageNum ++ ;
-				if(this.pageNum < 5){//模拟只有5页数据 后期更改
+				this.pageNum++;
+				if (this.pageNum < 5) { //模拟只有5页数据 后期更改
 					this.loadShopingCartList();
-				}else{
+				} else {
 					this.loadStatus = 'nomore';
 				}
 			},
@@ -180,17 +181,20 @@
 </script>
 
 <style lang="scss" scoped>
-	page{
+	page {
 		height: 100%;
 		width: 100%;
 	}
+
 	.cart {
 		padding-bottom: 134upx;
-        height: 100%;
-	    width: 100%;
+		height: 100%;
+		width: 100%;
+
 		.scroll-view {
 			height: 100%;
 			width: 100%;
+
 			//列表
 			.cart-list {
 				.list-item {

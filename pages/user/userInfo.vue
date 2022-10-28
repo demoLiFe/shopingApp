@@ -1,7 +1,7 @@
 <template>
 	<view class="user-info">
 		<view class="user-avatar-box">
-			<u-avatar :src="userInfo.avatar" size="80"></u-avatar>
+			<u-avatar :src="userinfo.avatar" size="80"></u-avatar>
 			<text class="tip" @click="chooseAvatar">更换头像</text>
 		</view>
 		<view class="list">
@@ -11,7 +11,7 @@
 						<text>用户昵称</text>
 					</view>
 					<view class="content">
-						<u--input fontSize="26rpx" border="none"  placeholder="请输入昵称" v-model="userInfo.nickName" type="text" value="" />
+						<u--input fontSize="26rpx" border="none"  placeholder="请输入昵称" v-model="userinfo.userName" type="text" value="" />
 					</view>
 					<text class="font-icon icon-you"></text>
 				</view>
@@ -22,7 +22,7 @@
 						<text>个人介绍</text>
 					</view>
 					<view class="content">
-						<text>{{!!userInfo.introduce ? userInfo.introduce : '这个人很懒，什么也没留下'  }}</text>
+						<text>{{!!userinfo.introduce ? userinfo.introduce : '这个人很懒，什么也没留下'  }}</text>
 					</view>
 					<text class="font-icon icon-you"></text>
 				</view>
@@ -33,7 +33,7 @@
 						<text>性别</text>
 					</view>
 					<view class="content">
-						<text>{{userInfo.gender}}</text>
+						<text>{{userinfo.gender}}</text>
 					</view>
 					<text class="font-icon icon-you"></text>
 				</view>
@@ -44,7 +44,7 @@
 						<text>个性签名</text>
 					</view>
 					<view class="content">
-						<text>{{userInfo.autograph}}</text>
+						<text>{{userinfo.autograph}}</text>
 					</view>
 					<text class="font-icon icon-you"></text>
 				</view>
@@ -72,23 +72,24 @@
 
 <script>
 	import bus from '../../utils/bus.js'
+	import {mapState} from 'vuex'
 	export default {
 		data(){
 			return {
-				userInfo:{
-					avatar:'',
-					nickName:'',
-					introduce:'',
-					gender:'',
-					autograph:'',
-				}
-				
+				userinfo:{}
 			}
 		},
-		onLoad() {
+		onLoad(opt) {
 			bus.$on('introduceChange',(data)=>{
-				this.userInfo.introduce = data;
+				this.userinfo.introduce = data;
 			});
+			//拷贝
+			this.userinfo = Object.assign({},this.userInfo)
+		},
+		computed:{
+			...mapState({
+				userInfo:state => state.user.userInfo,
+			})
 		},
 		methods:{
 			//更换头像
@@ -108,14 +109,14 @@
 				uni.showActionSheet({
 					itemList,
 					success: (res) => {
-						this.userInfo.gender = itemList[res.tapIndex]
+						this.userinfo.gender = itemList[res.tapIndex]
 					}
 				})
 			},
 			//跳转去个人介绍
 			jumpToIntroduction(){
 				uni.navigateTo({
-					url:`/pages/user/introduction?introduce=${JSON.stringify(this.userInfo.introduce)}`
+					url:`/pages/user/introduction?introduce=${JSON.stringify(this.userinfo.introduce)}`
 				})
 			},
 			//签名
