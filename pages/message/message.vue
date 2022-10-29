@@ -1,10 +1,10 @@
 <template>
 	<view class="message">
-		<scroll-view class="scroll-view" scroll-y="true" >
-			<view class="list">
+		<scroll-view class="scroll-view" scroll-y="true">
+			<view class="list" v-if="sessionList.length > 0">
 				<view class="list-item" v-for="(item,index) in sessionList" :key="index" @click="jumpToPage(item)">
 					<view class="avatar">
-						<u-avatar  size="50" shape="square" :src="item.avatar"></u-avatar>
+						<u-avatar size="50" shape="square" :src="item.avatar"></u-avatar>
 					</view>
 					<view class="right-content">
 						<view class="top-box">
@@ -21,89 +21,102 @@
 					</view>
 				</view>
 			</view>
+			<u-empty class="empty" v-else mode="message" icon="http://cdn.uviewui.com/uview/empty/message.png">
+			</u-empty>
 		</scroll-view>
 	</view>
 </template>
 
 <script>
+	import config from '../../config/config.js'
 	export default {
-		data(){
+		data() {
 			return {
-				sessionList:[
-					{
-						avatar:'/static/missing-face.png',
-						uName:'刘德华',
-						msgType:0,
-						msg:'哈哈哈',
-						noRead:2,
-						dateTime:'2022-10-12'
-					},
-					{
-						avatar:'/static/missing-face.png',
-						uName:'张的帅',
-						msg:'在干嘛',
-						msgType:0,
-						noRead:1,
-						dateTime:'2022-10-12'
-					},
-					{
-						avatar:'/static/missing-face.png',
-						uName:'申的帅',
-						msg:'今天天气不错',
-						msgType:0,
-						noRead:8,
-						dateTime:'2022-10-12'
-					},
-					{
-						avatar:'/static/notice.png',
-						msg:'系统临时维护通知',
-						title:'系统通知',
-						msgType:1,
-						noRead:8,
-						dateTime:'2022-10-12'
-					}
-				]
+				socketOpened: false,
+				sessionList: []
 			}
 		},
-		methods:{
+		onLoad() {
+			this.connectWs()
+		},
+		methods: {
 			//跳转对应页面
-			jumpToPage(item){
+			jumpToPage(item) {
 				//聊天界面
-				if(item.msgType === 0){
+				if (item.msgType === 0) {
 					uni.navigateTo({
-						url:'/pages/message/chat'
+						url: `/pages/message/chat?chatid=${item.chatid}`
 					})
-				}else{//通知界面
+				} else { //通知界面
 					uni.navigateTo({
-						url:'/pages/message/noticeList'
+						url: '/pages/message/noticeList'
 					})
 				};
 			},
+			//连接websockt
+			connectWs(){
+				const ws = uni.connectSocket({
+					url: config.wsBaseURL + '/api/session/list',
+					success(data) {
+						console.log("websocket连接成功");
+					},
+				});
+				console.log(ws);
+				
+				ws.onOpen(()=>{
+					console.log('eee');
+					this.socketOpened = true;
+					ws.onMessage((msg)=>{
+						console.log('收到服务端msg', JSON.parse(msg.data));
+						if(msg.data){
+							this.sessionList = JSON.parse(msg.data)
+						};
+					})
+					ws.send({
+						data:111,
+						async success(){
+							console.log('发送成功');
+						}
+					})
+					
+				})
+				ws.onClose(()=>{
+					
+				})
+				ws.onError(()=>{
+					
+				})
+			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	page{
+	page {
 		height: 100%;
 		background: #F5F5F5;
 		width: 100%;
 	}
-	.message{
+
+	.message {
 		height: 100%;
 		width: 100%;
-		.scroll-view{
+
+		.scroll-view {
 			height: 100%;
 			width: 100%;
-			.list{
-				.list-item{
+			position: relative;
+
+			.list {
+				.list-item {
 					background: #fff;
 					// height: 120upx;
 					padding: 20upx;
 					border-bottom: 1px solid #E4E7ED;
 					display: flex;
 					align-items: center;
-					.avatar{
+
+					.avatar {
 						display: flex;
 						align-items: center;
 						justify-content: center;
@@ -111,16 +124,21 @@
 						height: 100%;
 						margin-right: 20upx;
 					}
-					.right-content{
+
+					.right-content {
 						flex: 1;
-						.top-box{
+
+						.top-box {
 							display: flex;
 							align-items: center;
-							.uname,.title{
+
+							.uname,
+							.title {
 								flex: 1;
 								font-size: 32upx;
 							}
-							.no-read{
+
+							.no-read {
 								height: 45upx;
 								width: 45upx;
 								border-radius: 50%;
@@ -131,22 +149,32 @@
 								font-size: 24upx;
 							}
 						}
-						.bottom-box{
+
+						.bottom-box {
 							display: flex;
 							align-items: center;
 							padding-top: 20upx;
-							.msg{
+
+							.msg {
 								flex: 1;
 								font-size: 26upx;
 								color: #666;
 							}
-							.date-time{
+
+							.date-time {
 								font-size: 26upx;
 								color: #666;
 							}
 						}
 					}
 				}
+			}
+
+			.empty {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
 			}
 		}
 	}
