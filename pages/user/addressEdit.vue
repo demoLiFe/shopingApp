@@ -125,12 +125,12 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style>
 	page {
 		background: #f5f5f5;
-		box-sizing: content-box;
 	}
-
+</style>
+<style lang="scss" scoped>
 	.list {
 		padding-top: 16upx;
 

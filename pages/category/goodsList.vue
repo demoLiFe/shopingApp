@@ -164,12 +164,16 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+
+<style>
 	page {
 		background: #F5F5F5;
 		height: 100%;
 		width: 100%;
 	}
+</style>
+<style lang="scss" scoped>
+
 	.goods-list {
 		height: 100%;
 		width: 100%;

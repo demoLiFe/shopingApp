@@ -92,10 +92,13 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style>
 	page {
 		background: #f5f5f5;
 	}
+</style>
+<style lang="scss" scoped>
+
 	.bg-section{
 		height: 300upx;
 		width: 100%;

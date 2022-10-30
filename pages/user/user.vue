@@ -221,7 +221,9 @@
 			},
 			//分享
 			handleShare(){
-				
+				uni.navigateTo({
+					url:'/pages/message/chat'
+				})
 			},
 			
 		}

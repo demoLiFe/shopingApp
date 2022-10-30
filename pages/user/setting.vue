@@ -66,11 +66,12 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style>
 	page {
 		background: #f5f5f5;
 	}
-
+</style>
+<style lang="scss" scoped>
 	.list-wrap {
 		// padding-left: 30upx;
 		.mg-t-16 {

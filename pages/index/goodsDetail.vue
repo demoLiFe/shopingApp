@@ -330,10 +330,14 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style>
 	page {
 		background: #f5f5f5;
 	}
+</style>
+
+<style lang="scss" scoped>
+
 
 	.bg-fff {
 		background: #FFFFFF;

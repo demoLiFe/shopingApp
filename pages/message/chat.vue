@@ -5,21 +5,26 @@
 				<view v-for="(item,index) in msgList" :key="index">
 					<view class="date-time">{{item.dateTime}}</view>
 					<view v-for="(citem,cindex) in item.list" :key="citem.msg">
-						<view class="chat-item chat-left" v-if="citem.uid != 888888">
-							<u-avatar class="avartar-left" :src="citem.avatar" @click="jumpToUserDetail(citem)">
-							</u-avatar>
+						<view class="chat-item chat-left" v-if="citem.uid != userInfo.userName">
+							<view class="avartar-left">
+								<u-avatar  :src="citem.avatar" @click="jumpToUserDetail(citem)">
+								</u-avatar>
+							</view>
 							<view class="msg-content">
 								<text>{{citem.msg}}</text>
 								<view class="jiantou-left"></view>
 							</view>
 						</view>
-						<view class="chat-item chat-right" v-if="citem.uid == 888888">
+						<view class="chat-item chat-right" v-else>
 							<view class="msg-content msg-content-right">
 								<text>{{citem.msg}}</text>
 								<view class="jiantou-right"></view>
 							</view>
-							<u-avatar class="avartar-right" :src="citem.avatar" @click="jumpToUserDetail(citem)">
-							</u-avatar>
+							<view class="avartar-right">
+								<u-avatar  :src="citem.avatar" @click="jumpToUserDetail(citem)">
+								</u-avatar>
+							</view>
+							
 						</view>
 					</view>
 				</view>
@@ -42,7 +47,7 @@
 				</view>
 			</view>
 			<!-- 功能模块弹出 -->
-			<view class="action-model" v-show="showActionModel">
+			<view class="action-model" v-if="showActionModel">
 				<view class="action-item">
 					<u--image src="/static/picture.png" width="40px" height="40px"></u--image>
 					<text class="action-txt">照片</text>
@@ -79,6 +84,7 @@
 
 <script>
 	import config from '../../config/config.js'
+	import {mapState} from 'vuex';
 	export default {
 		data() {
 			return {
@@ -91,8 +97,12 @@
 				msgList: []
 			}
 		},
+		computed:{
+			...mapState({
+				userInfo:state => state.user.userInfo
+			})
+		},
 		onLoad(opt) {
-			console.log(opt.chatid);
 			uni.onKeyboardHeightChange(res => {
 				this.keyboardHeight = res.height;
 			});
@@ -124,15 +134,16 @@
 					this.websockt.onMessage((msg) => {
 						// console.log('收到服务端msg', JSON.parse(msg.data));
 						if (msg.data) {
-							console.log(msg);
+							console.log( JSON.parse(msg.data));
 							this.msgList = JSON.parse(msg.data)
 						}
 					});
+					
 				});
 				this.websockt.onClose(() => {
 					this.websocketOpened = false
                     //断线重连
-					this.connectWs();
+					// this.connectWs();
 				});
 				this.websockt.onError(() => {
                     this.websocketOpened = false
@@ -153,7 +164,7 @@
 			sendMsg() {
 				if(this.websocketOpened){
 					this.websockt.send({
-						data: this.msgContent,
+						data: JSON.stringify({msg:this.msgContent,user:this.userInfo.userName}),
 						success:async ()=> {
 							console.log('发送成功');
 							this.msgContent = ''
@@ -178,13 +189,16 @@
 		}
 	}
 </script>
-
-<style lang="scss" scoped>
+<style>
 	page {
 		background: #f5f5f5;
 		height: 100%;
 		width: 100%;
 	}
+</style>
+
+<style lang="scss" scoped>
+	
 
 	.chat {
 		height: 100%;
@@ -239,7 +253,7 @@
 						.jiantou-left {
 							margin: 0;
 							position: absolute;
-							left: -32upx;
+							left: -28upx;
 							top: 50%;
 							transform: translateY(-50%);
 							border-right: 16upx solid #fff;
@@ -251,7 +265,7 @@
 						.jiantou-right {
 							margin: 0;
 							position: absolute;
-							right: -32upx;
+							right: -28upx;
 							top: 50%;
 							transform: translateY(-50%);
 							border-left: 16upx solid #fa436a;
@@ -274,7 +288,7 @@
 			bottom: 0;
 			left: 0;
 			width: 100%;
-
+            height: auto; 
 			//输入框
 			.msg-input-box {
 				min-height: 120upx;

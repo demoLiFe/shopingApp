@@ -205,7 +205,8 @@
 		{
 			"path": "pages/message/chat",
 			"style": {
-				"navigationBarTitleText": "聊天"
+				"navigationBarTitleText": "聊天",
+				"backgroundColor": "#f5f5f5"
 			}
 		},
 		{

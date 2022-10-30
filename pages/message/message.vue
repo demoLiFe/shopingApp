@@ -91,12 +91,15 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style>
 	page {
 		height: 100%;
 		background: #F5F5F5;
 		width: 100%;
 	}
+</style>
+<style lang="scss" scoped>
+
 
 	.message {
 		height: 100%;

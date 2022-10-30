@@ -92,10 +92,13 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style>
 	page {
 		background: #f5f5ff;
 	}
+</style>
+<style lang="scss" scoped>
+
 	.canvas {
 		// height: 400upx;
 		background: #fff;

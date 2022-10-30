@@ -180,11 +180,15 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+
+<style>
 	page {
 		height: 100%;
 		width: 100%;
 	}
+</style>
+<style lang="scss" scoped>
+
 
 	.cart {
 		padding-bottom: 134upx;

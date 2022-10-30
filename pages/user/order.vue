@@ -208,13 +208,15 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style>
 	page {
 		background: #f5f5f5;
 		height: 100%;
 		width: 100%;
 	}
+</style>
 
+<style lang="scss" scoped>
 	.bg-f {
 		background: #fff;
 	}
