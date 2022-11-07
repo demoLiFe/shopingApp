@@ -1,10 +1,10 @@
 <template>
-	<view class="chat">
-		<scroll-view class="scroll-view" scroll-y="true" :scroll-top="scrollHeight" @click="showActionModel = false">
+	<view class="chat" v-debounce >
+		<scroll-view  class="scroll-view" scroll-y="true" :scroll-top="scrollHeight" @click="showActionModel = false">
 			<view class="chat-content" id="chat-content">
 				<view v-for="(item,index) in msgList" :key="index">
 					<view class="date-time">{{item.dateTime}}</view>
-					<view v-for="(citem,cindex) in item.list" :key="citem.msg">
+					<view v-for="(citem,cindex) in item.list" :key="citem.id">
 						<view class="chat-item chat-left" v-if="citem.uid != userInfo.userName">
 							<view class="avartar-left">
 								<u-avatar  :src="citem.avatar" @click="jumpToUserDetail(citem)">
@@ -97,6 +97,13 @@
 				msgList: []
 			}
 		},
+		directives:{
+			drag:{
+				bing:(e,binding)=>{
+					console.log(1111);
+				}
+			}
+		},
 		computed:{
 			...mapState({
 				userInfo:state => state.user.userInfo
@@ -107,6 +114,9 @@
 				this.keyboardHeight = res.height;
 			});
 			this.connectWs();
+		},
+		destroyed() {
+			this.closeSockt()
 		},
 		watch:{
 			msgList(){
@@ -123,6 +133,9 @@
 		methods: {
 			//连接websockt
 			connectWs() {
+				uni.showLoading({
+					title:'连接中..'
+				});
 				this.websockt = uni.connectSocket({
 					url: config.wsBaseURL + '/api/message/list',
 					success(data) {
@@ -130,15 +143,15 @@
 					},
 				});
 				this.websockt.onOpen(() => {
+					uni.hideLoading()
 					this.websocketOpened = true;
 					this.websockt.onMessage((msg) => {
-						// console.log('收到服务端msg', JSON.parse(msg.data));
+						// console.log('收到服务端msg',msg);
 						if (msg.data) {
-							console.log( JSON.parse(msg.data));
+							// console.log( JSON.parse(msg.data));
 							this.msgList = JSON.parse(msg.data)
 						}
 					});
-					
 				});
 				this.websockt.onClose(() => {
 					this.websocketOpened = false
@@ -151,11 +164,11 @@
 			},
 			closeSockt() {
 				this.websockt.close({
-					success(res) {
+					success:(res)=>{
 						this.websocketOpened = false
 						console.log("关闭成功------", res)
 					},
-					fail(err) {
+					fail:(err)=>{
 						console.log("关闭失败", err)
 					}
 				})

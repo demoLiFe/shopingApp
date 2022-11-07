@@ -4,6 +4,10 @@ const {serverBaseURL} = config;
 const services = axios.create({
 	baseURL:serverBaseURL,
 	crossDomain: true,
+	headers:{
+	  'Content-Type':'application/json'
+	},
+	timeout:3000
 });
 
 services.interceptors.request.use(
@@ -47,13 +51,13 @@ axios.defaults.adapter = function(config) {
 			dataType: config.dataType,
 			validateStatus: config.validateStatus,
 			success: function(response) {
-				response = {
-					data: response.data,
-					status: response.statusCode,
-					errMsg: response.data.msg,
-					header: response.header,
-					config: config
-				}
+				// response = {
+				// 	data: response.data,
+				// 	status: response.statusCode,
+				// 	errMsg: response.data.msg,
+				// 	header: response.header,
+				// 	config: config
+				// }
 				settle(resolve, reject, response, config.validateStatus)
 			},
 			fail: function(err) {

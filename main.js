@@ -8,6 +8,11 @@ import api from './api/api.js'
 Vue.prototype.$api = api;
 import store from './store/index.js';
 Vue.prototype.$store = store;
+import directives from './directives/directives.js'
+
+
+//自定义指令
+Vue.directive('debounce',directives.debounce)
 
 //全局混入
 Vue.mixin({
