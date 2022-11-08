@@ -1,6 +1,6 @@
 <template>
-	<view class="chat" v-debounce >
-		<scroll-view  class="scroll-view" scroll-y="true" :scroll-top="scrollHeight" @click="showActionModel = false">
+	<view class="chat"  >
+		<scroll-view  class="scroll-view" scroll-y="true" :scroll-top="scrollHeight" @click="showFuncModule = false">
 			<view class="chat-content" id="chat-content">
 				<view v-for="(item,index) in msgList" :key="index">
 					<view class="date-time">{{item.dateTime}}</view>
@@ -11,13 +11,13 @@
 								</u-avatar>
 							</view>
 							<view class="msg-content">
-								<text>{{citem.msg}}</text>
+								<text  v-copy="citem.msg">{{citem.msg}}</text>
 								<view class="jiantou-left"></view>
 							</view>
 						</view>
 						<view class="chat-item chat-right" v-else>
 							<view class="msg-content msg-content-right">
-								<text>{{citem.msg}}</text>
+								<text v-copy="citem.msg">{{citem.msg}}</text>
 								<view class="jiantou-right"></view>
 							</view>
 							<view class="avartar-right">
@@ -35,46 +35,46 @@
 			<!-- 输入框 -->
 			<view class="msg-input-box">
 				<view class="left-box">
-					<image src="/static//voice.png" mode=""></image>
+					<image src="/static/voice.png" mode=""></image>
 				</view>
 				<view class="center-box">
-					<u--input class="input" placeholder="请输入内容" border="none" confirmType="send" :adjustPosition="false"
+					<u--input v-debounce class="input" placeholder="请输入内容" border="none" confirmType="send" :adjustPosition="false"
 						v-model="msgContent" @focus="focus" @confirm="sendMsg"></u--input>
 				</view>
 				<view class="right-box">
 					<image class="emoji" src="/static/emoji.png" mode=""></image>
-					<image src="/static/add.png" mode="" @click="showActionModel = !showActionModel"></image>
+					<image src="/static/add.png" mode="" @click="showFuncModule = !showFuncModule"></image>
 				</view>
 			</view>
 			<!-- 功能模块弹出 -->
-			<view class="action-model" v-if="showActionModel">
-				<view class="action-item">
+			<view class="function-module" v-if="showFuncModule">
+				<view class="function-item">
 					<u--image src="/static/picture.png" width="40px" height="40px"></u--image>
-					<text class="action-txt">照片</text>
+					<text class="function-txt">照片</text>
 				</view>
-				<view class="action-item">
+				<view class="function-item">
 					<u--image src="/static/camera.png" width="40px" height="40px"></u--image>
-					<text class="action-txt">拍摄</text>
+					<text class="function-txt">拍摄</text>
 				</view>
-				<view class="action-item">
+				<view class="function-item">
 					<u--image src="/static/video.png" width="40px" height="40px"></u--image>
-					<text class="action-txt">视频通话</text>
+					<text class="function-txt">视频通话</text>
 				</view>
-				<view class="action-item">
+				<view class="function-item">
 					<u--image src="/static/location.png" width="40px" height="40px"></u--image>
-					<text class="action-txt">位置</text>
+					<text class="function-txt">位置</text>
 				</view>
-				<view class="action-item">
+				<view class="function-item" @click="jumpToRedPacket">
 					<u--image src="/static/redbag.png" width="40px" height="40px"></u--image>
-					<text class="action-txt">红包</text>
+					<text class="function-txt">红包</text>
 				</view>
-				<view class="action-item">
+				<view class="function-item">
 					<u--image src="/static/transfer -accounts.png" width="40px" height="40px"></u--image>
-					<text class="action-txt">转账</text>
+					<text class="function-txt">转账</text>
 				</view>
-				<view class="action-item">
+				<view class="function-item">
 					<u--image src="/static/collection.png" width="40px" height="40px"></u--image>
-					<text class="action-txt">收藏</text>
+					<text class="function-txt">收藏</text>
 				</view>
 			</view>
 		</view>
@@ -88,20 +88,13 @@
 	export default {
 		data() {
 			return {
-				showActionModel: false, //显示功能模块
+				showFuncModule: false, //显示功能模块
 				keyboardHeight: 0, //键盘弹出高度
 				scrollHeight:0,//页面滚动高度
 				msgContent: '',
 				websocketOpened: false, //sockt是否打开
 				websockt: null, //websockt实例
 				msgList: []
-			}
-		},
-		directives:{
-			drag:{
-				bing:(e,binding)=>{
-					console.log(1111);
-				}
 			}
 		},
 		computed:{
@@ -156,7 +149,7 @@
 				this.websockt.onClose(() => {
 					this.websocketOpened = false
                     //断线重连
-					// this.connectWs();
+					this.connectWs();
 				});
 				this.websockt.onError(() => {
                     this.websocketOpened = false
@@ -176,10 +169,14 @@
 			//发送消息
 			sendMsg() {
 				if(this.websocketOpened){
+					uni.showLoading({
+						title:'发送中..'
+					});
 					this.websockt.send({
-						data: JSON.stringify({msg:this.msgContent,user:this.userInfo.userName}),
+						data: JSON.stringify({msg:this.msgContent,user:this.userInfo.userName,avatar:this.userInfo.avatar}),
 						success:async ()=> {
 							console.log('发送成功');
+							uni.hideLoading();
 							this.msgContent = ''
 						}
 					})
@@ -197,7 +194,13 @@
 			},
 			//输入框聚焦
 			focus() {
-				this.showActionModel = false
+				this.showFuncModule = false
+			},
+			//发红包
+			jumpToRedPacket(){
+				uni.navigateTo({
+					url:'/pages/message/redPacket'
+				})
 			}
 		}
 	}
@@ -336,12 +339,12 @@
 			}
 
 			//功能模块
-			.action-model {
+			.function-module {
 				background: #e8f0ef;
 				display: flex;
 				flex-wrap: wrap;
 
-				.action-item {
+				.function-item {
 					flex-shrink: 0;
 					display: flex;
 					flex-direction: column;
@@ -350,7 +353,7 @@
 					flex: 0 0 25%;
 					padding: 26upx 0;
 
-					.action-txt {
+					.function-txt {
 						padding-top: 10upx;
 					}
 				}

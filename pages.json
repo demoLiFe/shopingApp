@@ -210,6 +210,13 @@
 			}
 		},
 		{
+			"path": "pages/message/redPacket",
+			"style": {
+				"navigationBarTitleText": "发红包",
+				"backgroundColor": "#f5f5f5"
+			}
+		},
+		{
 			"path": "pages/message/noticeList",
 			"style": {
 				"navigationBarTitleText": "通知列表"

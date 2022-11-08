@@ -1,9 +1,17 @@
+import debounce from './debounce.js'
+import copy from './copy.js'
+
+const directives = {
+	debounce,
+	copy
+}
+
 export default {
-	debounce:{
-		bind:(el,binding)=>{
-			// el.innerHTML = '1212'
-			console.log();
-		},
+	install(Vue){
+		if(Object.keys(directives).length > 0){
+			Object.keys(directives).forEach(key=>{
+				Vue.directive(key,directives[key])
+			})
+		}
 	}
-	
 }

@@ -10,9 +10,8 @@ import store from './store/index.js';
 Vue.prototype.$store = store;
 import directives from './directives/directives.js'
 
-
 //自定义指令
-Vue.directive('debounce',directives.debounce)
+Vue.use(directives)
 
 //全局混入
 Vue.mixin({

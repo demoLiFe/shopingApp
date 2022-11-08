@@ -1,4 +1,4 @@
-//签名
+<!-- 签名 -->
 <template>
 	<view class="autograph">
 		<canvas type="2d" class="canvas" :style="{width:cWidth + 'px',height:cHeight + 'px'}" canvas-id="myCanvas" id="myCanvas"
