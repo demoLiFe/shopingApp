@@ -1,21 +1,25 @@
 <template>
 	<view class="address-content">
-		<view class="item" v-for="(item,index) in addressList" :key="index">
-			<view class="item-left">
-				<view class="address-info">
-					<text class="default-tag" v-show="item.isDefault">默认</text>
-					<text>{{item.address}}</text>
+		<view v-if="addressList.length > 0">
+			<view class="item" v-for="(item,index) in addressList" :key="index">
+				<view class="item-left">
+					<view class="address-info">
+						<text class="default-tag" v-show="item.isDefault">默认</text>
+						<text>{{item.address}}</text>
+					</view>
+					<view class="person-info">
+						<text>{{item.uname}}</text>
+						<text class="phonem-num">{{item.phoneNum}}</text>
+					</view>
 				</view>
-				<view class="person-info">
-					<text>{{item.uname}}</text>
-					<text class="phonem-num">{{item.phoneNum}}</text>
-				</view>
+				<text class="font-icon icon-bianji" @click="jumpToEditAddress(item)"></text>
 			</view>
-			<text class="font-icon icon-bianji" @click="jumpToEditAddress(item)"></text>
+			<view class="add-btn-wraper">
+				<button class="add-btn" type="primary" @click="jumpToEditAddress()">新增地址</button>
+			</view>
 		</view>
-		<view class="add-btn-wraper">
-			<button class="add-btn" type="primary" @click="jumpToEditAddress()">新增地址</button>
-		</view>
+		<no-data v-else></no-data>
+		<u-toast ref="uToast"></u-toast>  
 	</view>
 </template>
 
@@ -23,25 +27,30 @@
 	export default {
 		data(){
 			return {
-				addressList:[
-					{
-						address:'四川省成都市武侯区',
-						phoneNum:135231231132,
-						uname:'张的帅',
-						doorNum:100,
-						isDefault:true
-					},
-					{
-						address:'四川省成都市成华区',
-						phoneNum:19212034113,
-						uname:'申的帅',
-						doorNum:200,
-						isDefault:false
-					},
-				]
+				addressList:[]
 			}
 		},
+		onShow() {
+			this.loadAddressList();
+		},
 		methods:{
+			//获取收货地址列表
+			loadAddressList(){
+				uni.showLoading({
+					title:'数据加载中..'
+				});
+				this.$api.user.GetAddressList({}).then(res=>{
+					if(res.status === 200){
+						this.addressList = res.data;
+					};
+					uni.hideLoading();
+				}).catch(err=>{
+					uni.hideLoading();
+					this.$refs.uToast.show({
+						message: err
+					});
+				})
+			},
 			//编辑收货地址
 			jumpToEditAddress(address = {}){
 				uni.navigateTo({
@@ -52,8 +61,16 @@
 	}
 </script>
 
+<style>
+	page{
+		height: 100%;
+		width: 100%;
+	}
+</style>
 <style lang="scss" scoped>
 	.address-content{
+		height: 100%;
+		width: 100%;
 		padding-bottom: 112upx;
 		.item{
 			padding: 20upx 30upx;

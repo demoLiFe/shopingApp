@@ -34,6 +34,11 @@ Vue.mixin({
 	}
 })
 
+//全局自定义组件注册
+import NoData from './components/no-data.vue'
+
+Vue.component('NoData',NoData)
+
 Vue.config.productionTip = false
 App.mpType = 'app'
 

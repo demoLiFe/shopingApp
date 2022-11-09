@@ -39,14 +39,9 @@
 						<text>已售 {{item.sales}}</text>
 					</view>
 				</view>
+				<u-loadmore style="padding: 30rpx 0;" :status="loadStatus"  :loadmoreText="loadText.loadmoreText" :loading-text="loadText.loadingText" :nomore-text="loadText.nomoreText"  dashed line />
 			</view>
-			<view class="no-data" v-else>
-				<view class="no-data-content">
-					<!-- <image src="../../static/emptyCart.jpg" mode=""></image> -->
-					<text>暂无数据</text>
-				</view>
-			</view>
-			<u-loadmore v-if="goodsList.length >= 6" :status="loadStatus"  :loadmoreText="loadText.loadmoreText" :loading-text="loadText.loadingText" :nomore-text="loadText.nomoreText"  dashed line />
+			<no-data v-else></no-data>
 		</scroll-view>
 		<!-- 右侧弹出 -->
 		<view class="right-popup-box mask" v-show="showPopup" @click="showPopup = false"  @touchmove.stop.prevent="disabledScroll">
@@ -293,24 +288,6 @@
 								font-size: 26upx;
 							}
 						}
-					}
-				}
-			}
-			.no-data{
-				height: 100%;
-				width: 100%;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				.no-data-content{
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					flex-direction: column;
-					font-size: 26upx;
-					image{
-						height: 100upx;
-						width: 100upx;
 					}
 				}
 			}

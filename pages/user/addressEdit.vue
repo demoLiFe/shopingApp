@@ -43,6 +43,7 @@
 		<view class="submit-btn-wrap">
 			<button class="submit-btn" type="primary" @click="submit">提交</button>
 		</view>
+		<u-toast ref="uToast"></u-toast>  
 	</view>
 </template>
 
@@ -93,14 +94,20 @@
 			//提交
 			submit() {
 				if (this.isEmpty()) {
-					uni.showToast({
-						title: '提交成功'
-					})
-					setTimeout(() => {
-						uni.redirectTo({
-							url: '/pages/user/address'
-						})
-					}, 2000)
+					this.$api.user.EditAddressList(this.addressInfo).then(res=>{
+						this.$refs.uToast.show({
+							message: '操作成功'
+						});
+						setTimeout(() => {
+							uni.redirectTo({
+								url: '/pages/user/address'
+							})
+						}, 2000)
+					}).catch(err=>{
+						this.$refs.uToast.show({
+							message: err
+						});
+					});
 				} else {
 					uni.showToast({
 						icon: 'none',
@@ -114,9 +121,7 @@
 					return typeof v !== 'boolean'
 				});
 				const res = values.every(v => {
-					if(typeof v !== 'boolean'){
-						return !!v
-					}
+					return  !!v
 				})
 				return res
 			},

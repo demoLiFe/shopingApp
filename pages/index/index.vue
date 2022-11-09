@@ -40,9 +40,27 @@
 			<view class="s-header">
 				<image src="/static/temp/secskill-img.jpg" mode=""></image>
 				<text class="tip">8点场</text>
-				<text class="hours">07</text>
-				<text class="minute">11</text>
-				<text class="second">50</text>
+				 <u-count-down
+					:time="8 * 60 * 60 * 1000"
+					format="HH:mm:ss"
+					autoStart
+					millisecond
+					@change="onChange"
+				    >
+					<view class="time">
+						<view class="time__custom">
+							<text class="time__custom__item">{{ timeData.hours>10?timeData.hours:'0'+timeData.hours}}</text>
+						</view>
+						<text class="time__doc">:</text>
+						<view class="time__custom">
+							<text class="time__custom__item">{{ timeData.minutes }}</text>
+						</view>
+						<text class="time__doc">:</text>
+						<view class="time__custom">
+							<text class="time__custom__item">{{ timeData.seconds }}</text>
+						</view>
+					</view>
+				</u-count-down>
 				<view class="right">
 					<text class="font-icon icon-you"></text>
 				</view>
@@ -164,6 +182,7 @@
 	export default {
 		data() {
 			return {
+				timeData: {},
 				titleNViewBackground: '',
 				bannerCurrent: 0, //当前banner
 				navCurrent: 0, //当前导航模块
@@ -321,6 +340,10 @@
 					url: '/pages/index/goodsDetail'
 				})
 			},
+			//倒计时
+			onChange(e) {
+			    this.timeData = e
+			}
 		}
 	}
 </script>
@@ -510,18 +533,22 @@
 					margin: 0 22upx 0 45upx;
 					color: #909399
 				}
-
-				.hours,
-				.minute,
-				.second {
-					background: rgba(0, 0, 0, 0.8);
-					height: 38upx;
-					width: 46upx;
-					text-align: center;
-					line-height: 38upx;
-					font-size: 28upx;
-					margin-right: 14upx;
-					color: #fff;
+				.time{
+					display: flex;
+					&__custom{
+						background: rgba(0, 0, 0, 0.8);
+						height: 50upx;
+						width: 50upx;
+						text-align: center;
+						line-height: 50upx;
+						font-size: 28upx;
+						margin-right: 14upx;
+						color: #fff;
+						border-radius: 8upx;
+					}
+					&__doc{
+						margin:0 6upx;
+					}
 				}
 
 				.right {

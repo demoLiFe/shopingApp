@@ -51,14 +51,14 @@
 			</view>
 			
 			<!-- 浏览历史 -->
-			<view class="history-section bg-f">
+			<view class="history-section bg-f" v-if="hasLogin">
 				<view class="header">
 					<text class="font-icon icon-lishijilu"></text>
 					<text class="title">历史记录</text>
 				</view>
 				<scroll-view class="scroll-wraper" scroll-x="true"  >
 					<view class="history-list">
-						<image v-for="(item,index) in historyList" :key="index" :src="item.image"></image>
+						<image v-for="(item,index) in historyList" :key="item.id" :src="item.img"></image>
 					</view>
 				</scroll-view>
 			</view>
@@ -111,6 +111,7 @@
 				</view>
 			</view>
 		</view>
+		<u-toast ref="uToast"></u-toast>  
 	</view>
 </template>
 
@@ -119,23 +120,7 @@
 	export default {
 		data(){
 			return {
-				historyList:[
-					{
-						image:'https://img13.360buyimg.com/n8/jfs/t1/30343/20/1029/481370/5c449438Ecb46a15b/2b2adccb6dc742fd.jpg'
-					},
-					{
-						image:'https://img13.360buyimg.com/n8/jfs/t1/30343/20/1029/481370/5c449438Ecb46a15b/2b2adccb6dc742fd.jpg'
-					},
-					{
-						image:'https://img13.360buyimg.com/n8/jfs/t1/30343/20/1029/481370/5c449438Ecb46a15b/2b2adccb6dc742fd.jpg'
-					},
-					{
-						image:'https://img13.360buyimg.com/n8/jfs/t1/30343/20/1029/481370/5c449438Ecb46a15b/2b2adccb6dc742fd.jpg'
-					},
-					{
-						image:'https://img13.360buyimg.com/n8/jfs/t1/30343/20/1029/481370/5c449438Ecb46a15b/2b2adccb6dc742fd.jpg'
-					}
-				],
+				historyList:[],
 				startY:0,//记录手势y方向初始位置
 				coverMove:0,
 			}
@@ -159,7 +144,24 @@
 				});
 			};
 		},
+		onLoad() {
+			if(this.hasLogin){
+				this.loadHistoryRecordList();
+			}
+		},
 		methods:{
+			//获取历史记录
+			loadHistoryRecordList(){
+				this.$api.user.GetHistoryRecordList({}).then(res=>{
+					if(res.status === 200){
+						this.historyList = res.data
+					};
+				}).catch(err=>{
+					this.$refs.uToast.show({
+						message: err
+					});
+				})
+			},
 			//去登陆
 			jumpToLogin(){
 				if(!this.hasLogin){
