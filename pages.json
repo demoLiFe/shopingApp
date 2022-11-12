@@ -181,13 +181,19 @@
 		{
 			"path": "pages/user/collection",
 			"style": {
-				"navigationBarTitleText": "收藏"
+				"navigationBarTitleText": "我的收藏"
 			}
 		},
 		{
 			"path": "pages/user/appraise",
 			"style": {
-				"navigationBarTitleText": "评价"
+				"navigationBarTitleText": "我的评价"
+			}
+		},
+		{
+			"path": "pages/user/publishAppraise",
+			"style": {
+				"navigationBarTitleText": "发表评价"
 			}
 		},
 		{

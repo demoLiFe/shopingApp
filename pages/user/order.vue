@@ -68,7 +68,7 @@
 								</view>
 							</view>
 						</view>
-						<u-loadmore style="padding: 20rpx 0;" v-if="orderList.length > pageSize" :status="loadStatus"  :loadmoreText="loadText.loadmoreText" :loading-text="loadText.loadingText" :nomore-text="loadText.nomoreText"  dashed line />
+						<u-loadmore style="padding: 20rpx 0;"  :status="loadStatus"  :loadmoreText="loadText.loadmoreText" :loading-text="loadText.loadingText" :nomore-text="loadText.nomoreText"  dashed line />
 					</scroll-view>
 					<view class="no-data" v-if="orderList.length === 0">
 						<view class="no-data-content">

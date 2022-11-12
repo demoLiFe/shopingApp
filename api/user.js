@@ -27,5 +27,10 @@ export default {
 		return axios.get('/users/api/collection/list',{
 			params
 		})
+	},
+	GetAppraiseList(params){
+		return axios.get('/users/api/appraise/list',{
+			params
+		})
 	}
 }

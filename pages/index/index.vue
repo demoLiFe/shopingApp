@@ -32,8 +32,8 @@
 				</view>
 			</view>
 		</view>
-		<view class="ad-1">
-			<image src="/static/temp/ad1.jpg" mode="scaleToFill"></image>
+		<view class="ad">
+			<image src="/static/temp//ad.png" mode="scaleToFill"></image>
 		</view>
 		<!-- 秒杀层 -->
 		<view class="seckill-floor">
@@ -429,7 +429,6 @@
 				}
 			}
 		}
-
 		//导航选择
 		.nav-section {
 			display: flex;
@@ -438,17 +437,14 @@
 			padding: 32upx 24upx;
 			display: flex;
 			flex-direction: column;
-
 			.swiper-wrap {
 				width: 100%;
 				min-height: 300upx;
-
 				.swiper-item {
 					height: 100%;
 					width: 100%;
 					display: flex;
 					flex-wrap: wrap;
-
 					.nav-item {
 						flex: 0 0 25%;
 						display: flex;
@@ -458,7 +454,6 @@
 						font-size: 26upx;
 						height: 150upx;
 						color: #303133;
-
 						image {
 							width: 88upx;
 							height: 88upx;
@@ -473,18 +468,15 @@
 					}
 				}
 			}
-
 			.custom-indicator-dot-wrap {
 				height: 50upx;
 				width: 100%;
 				display: flex;
 				align-items: center;
 				justify-content: center;
-
 				.custom-indicator-dot {
 					// min-width: 200upx;
 					display: flex;
-
 					.dot {
 						margin-right: 10upx;
 						height: 15upx;
@@ -499,19 +491,16 @@
 				}
 			}
 		}
-
-		.ad-1 {
+		.ad{
 			width: 100%;
 			height: 252upx;
-			padding: 10upx 0;
+			padding: 10upx 30upx;
 			background: #fff;
-
 			image {
 				height: 100%;
 				width: 100%;
 			}
 		}
-
 		// 秒杀层
 		.seckill-floor {
 			padding: 4upx 32upx 22upx;
