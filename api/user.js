@@ -19,5 +19,13 @@ export default {
 	},
 	EditAddressList(data){
 		return axios.post('/users/api/address/list/edit',data)
+	},
+	CreateAddressList(data){
+		return axios.post('/users/api/address/list/create',data)
+	},
+	GetCollectionList(params){
+		return axios.get('/users/api/collection/list',{
+			params
+		})
 	}
 }

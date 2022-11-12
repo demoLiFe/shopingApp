@@ -22,7 +22,8 @@
 					<text>地址</text>
 				</view>
 				<view class="right" @click="chooseLocation">
-					<text class="txt">{{addressInfo.address}}</text>
+					<!-- <text class="txt">{{addressInfo.address}}</text> -->
+					<input type="text" v-model="addressInfo.address" value="" />
 					<text class="font-icon icon-shouhuodizhi"></text>
 				</view>
 			</view>
@@ -37,8 +38,7 @@
 		</view>
 		<view class="setting-default">
 			<text>设为默认</text>
-			<switch checked color="#e07472"  :checked="addressInfo.isDefault"
-				style="transform: translateX(16upx) scale(0.9);" />
+			<u-switch v-model="addressInfo.isDefault" activeColor="#e07472"  ></u-switch>
 		</view>
 		<view class="submit-btn-wrap">
 			<button class="submit-btn" type="primary" @click="submit">提交</button>
@@ -58,6 +58,7 @@
 					doorNum: '',
 					isDefault: false
 				},
+				type:'',
 				
 			}
 		},
@@ -66,8 +67,10 @@
 			if(!!opt.address && Object.keys(JSON.parse(opt.address)).length > 0){
 				this.addressInfo = JSON.parse(opt.address) 
 				title = '编辑收货地址';
+				this.type = 'edit';
 			}else{
 				title = '新增收货地址';
+				this.type = 'create';
 			};
 			uni.setNavigationBarTitle({
 				title
@@ -76,38 +79,56 @@
 		methods: {
 			//选择地址
 			chooseLocation() {
-				uni.getLocation({
-					type: 'wgs84',
-					success: function(res) {
-						const latitude = res.latitude;
-						const longitude = res.longitude;
-						uni.openLocation({
-							latitude: latitude,
-							longitude: longitude,
-							success: function() {
-								console.log('success');
-							}
-						});
-					}
-				});
+				// uni.getLocation({
+				// 	type: 'wgs84',
+				// 	success: function(res) {
+				// 		const latitude = res.latitude;
+				// 		const longitude = res.longitude;
+				// 		uni.openLocation({
+				// 			latitude: latitude,
+				// 			longitude: longitude,
+				// 			success: function() {
+				// 				console.log('success');
+				// 			}
+				// 		});
+				// 	}
+				// });
 			},
 			//提交
 			submit() {
 				if (this.isEmpty()) {
-					this.$api.user.EditAddressList(this.addressInfo).then(res=>{
-						this.$refs.uToast.show({
-							message: '操作成功'
+                    if(this.type === 'create'){
+						this.$api.user.CreateAddressList(this.addressInfo).then(res=>{
+							this.$refs.uToast.show({
+								message: '操作成功'
+							});
+							setTimeout(() => {
+								uni.redirectTo({
+									url: '/pages/user/address'
+								})
+							}, 2000)
+						}).catch(err=>{
+							this.$refs.uToast.show({
+								message: err
+							});
 						});
-						setTimeout(() => {
-							uni.redirectTo({
-								url: '/pages/user/address'
-							})
-						}, 2000)
-					}).catch(err=>{
-						this.$refs.uToast.show({
-							message: err
+					}else if(this.type === 'edit'){
+						this.$api.user.EditAddressList(this.addressInfo).then(res=>{
+							this.$refs.uToast.show({
+								message: '操作成功'
+							});
+							setTimeout(() => {
+								uni.redirectTo({
+									url: '/pages/user/address'
+								})
+							}, 2000)
+						}).catch(err=>{
+							this.$refs.uToast.show({
+								message: err
+							});
 						});
-					});
+					};
+					
 				} else {
 					uni.showToast({
 						icon: 'none',

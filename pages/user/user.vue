@@ -87,15 +87,14 @@
 						<text class="font-icon icon-you"></text>
 					</view>
 				</view>
-				<view class="list-cell" hover-class="cell-hover" hover-stay-time="60">
+				<view class="list-cell" hover-class="cell-hover" hover-stay-time="60" @click="jumpToAppraise">
 					<text class="font-icon icon-pinglun-copy" style="color: #ee883b;font-size: 38upx;"></text>
 					<view class="right">
-						<text class="cell-title">晒单</text>
-						<text class="cell-des">晒单抢红包</text>
+						<text class="cell-title">我的评价</text>
 						<text class="font-icon icon-you"></text>
 					</view>
 				</view>
-				<view class="list-cell" hover-class="cell-hover" hover-stay-time="60">
+				<view class="list-cell" hover-class="cell-hover" hover-stay-time="60" @click="jumpToCollection">
 					<text class="font-icon icon-shoucang_xuanzhongzhuangtai" style="color: #54b4ef;font-size: 38upx;"></text>
 					<view class="right">
 						<text class="cell-title">我的收藏</text>
@@ -144,7 +143,7 @@
 				});
 			};
 		},
-		onLoad() {
+		onShow() {
 			if(this.hasLogin){
 				this.loadHistoryRecordList();
 			}
@@ -219,6 +218,18 @@
 			jumpToSetting(){
 				uni.navigateTo({
 					url:'/pages/user/setting'
+				})
+			},
+			//跳转到收藏
+			jumpToCollection(){
+				uni.navigateTo({
+					url:'/pages/user/collection'
+				})
+			},
+			//跳转到我的评价
+			jumpToAppraise(){
+				uni.navigateTo({
+					url:'/pages/user/appraise'
 				})
 			},
 			//分享

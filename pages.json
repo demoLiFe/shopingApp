@@ -179,6 +179,18 @@
 			}
 		},
 		{
+			"path": "pages/user/collection",
+			"style": {
+				"navigationBarTitleText": "收藏"
+			}
+		},
+		{
+			"path": "pages/user/appraise",
+			"style": {
+				"navigationBarTitleText": "评价"
+			}
+		},
+		{
 			"path": "pages/user/setting",
 			"style": {
 				"navigationBarTitleText": "设置"
