@@ -24,7 +24,7 @@
 		<!-- 商品列表 -->
 		<scroll-view class="scroll-view" scroll-y="true" @scrolltolower="scrollLower">
 			<view class="content" v-if="goodsList.length > 0">
-				<view class="goods-item" v-for="(item,index) in goodsList" :key="index">
+				<view class="goods-item" v-for="(item,index) in goodsList" :key="index" @click="jumpToGoodsDetail(item)">
 					<view class="img-wraper">
 						<image :src="item.image" mode=""></image>
 					</view>
@@ -138,6 +138,12 @@
 				}else{
 					this.loadStatus = 'nomore';
 				}
+			},
+			//跳转商品详情页
+			jumpToGoodsDetail(item) {
+				uni.navigateTo({
+					url: '/pages/index/goodsDetail'
+				})
 			},
 			disabledScroll(){
 				return

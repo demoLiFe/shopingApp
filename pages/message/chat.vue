@@ -48,7 +48,7 @@
 			</view>
 			<!-- 功能模块弹出 -->
 			<view class="function-module" v-if="showFuncModule">
-				<view class="function-item">
+				<view class="function-item" @click="chooseImage">
 					<u--image src="/static/picture.png" width="40px" height="40px"></u--image>
 					<text class="function-txt">照片</text>
 				</view>
@@ -72,7 +72,7 @@
 					<u--image src="/static/transfer -accounts.png" width="40px" height="40px"></u--image>
 					<text class="function-txt">转账</text>
 				</view>
-				<view class="function-item">
+				<view class="function-item" @click="jumpToCollection">
 					<u--image src="/static/collection.png" width="40px" height="40px"></u--image>
 					<text class="function-txt">收藏</text>
 				</view>
@@ -186,10 +186,24 @@
 					});
 				}
 			},
+			//选择图片
+			chooseImage(){
+				uni.chooseImage({
+					success: (res) => {
+						console.log(res);
+					}
+				})
+			},
 			//跳转到用户详情页
 			jumpToUserDetail(citem) {
 				uni.previewImage({
 					urls: [citem.avatar]
+				})
+			},
+			//跳转去收藏
+			jumpToCollection(){
+				uni.navigateTo({
+					url:'/pages/user/collection'
 				})
 			},
 			//输入框聚焦

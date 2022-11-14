@@ -150,8 +150,8 @@
 				</view>
 			</view>
 			<view class="right">
-				<button class="btn" type="primary" @click="jumpToCreateOrder"><text>立即购买</text></button>
 				<button class="btn "  type="primary" @click="jumpToBuyingCart"><text>加购物车</text></button>
+				<button class="btn" type="primary" @click="jumpToCreateOrder"><text>立即购买</text></button>
 			</view>
 		</view>
 		<!-- 分享弹出 -->

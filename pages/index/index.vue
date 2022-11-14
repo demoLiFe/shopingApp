@@ -68,7 +68,7 @@
 			<scroll-view class="scoll-wraper" scroll-x="true">
 				<view class="s-content">
 					<view class="s-content-item" v-for="(item,index) in seckillGoodsList" :key="index"
-						@click="gotoDetail(item)">
+						@click="jumpToGoodsDetail(item)">
 						<image :src="item.image" mode="aspectFill"></image>
 						<text class="clamp">{{item.name}}</text>
 						<text class="price">￥{{item.price}}</text>
@@ -86,7 +86,7 @@
 				</view>
 			</view>
 			<swiper class="swiper-wrap" circular>
-				<swiper-item class="swiper-item pd-0-32" v-for="(item,index) in groupBuying" :key="index">
+				<swiper-item class="swiper-item pd-0-32" v-for="(item,index) in groupBuying" :key="index" @click="jumpToGoodsDetail(item)">
 					<view class="item-box">
 						<view class="item-left">
 							<image :src="item.image" />
@@ -137,7 +137,7 @@
 					<text class="title2">Competitive Products For You</text>
 				</view>
 			</view>
-			<view class="floor-content" v-for="(item,index) in cateGoodsList" :key="index">
+			<view class="floor-content" v-for="(item,index) in cateGoodsList" :key="index" @click="jumpToGoodsDetail(item)">
 				<view class="floor-img-box">
 					<image class="floor-img" :src="item.bgimage">
 					</image>
@@ -165,7 +165,7 @@
 				</view>
 			</view>
 			<view class="floor-content pd-0-32">
-				<view class="guess-item" v-for="(item,index) in likeGoodsList" :key="index">
+				<view class="guess-item" v-for="(item,index) in likeGoodsList" :key="index" @click="jumpToGoodsDetail(item)">
 					<view class="image-wrapper">
 						<image :src="item.image"></image>
 					</view>
@@ -335,7 +335,7 @@
 				this.navCurrent = e.detail.current;
 			},
 			//跳转商品详情页
-			gotoDetail() {
+			jumpToGoodsDetail(item) {
 				uni.navigateTo({
 					url: '/pages/index/goodsDetail'
 				})

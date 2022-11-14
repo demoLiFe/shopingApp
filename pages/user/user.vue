@@ -58,7 +58,7 @@
 				</view>
 				<scroll-view class="scroll-wraper" scroll-x="true"  >
 					<view class="history-list">
-						<image v-for="(item,index) in historyList" :key="item.id" :src="item.img"></image>
+						<image v-for="(item,index) in historyList" :key="item.id"  @click="jumpToGoodsDetail(item)" :src="item.img"></image>
 					</view>
 				</scroll-view>
 			</view>
@@ -183,6 +183,12 @@
 				//回弹
 				this.coverMove = 0
 				return;
+			},
+			//跳转商品详情页
+			jumpToGoodsDetail(item) {
+				uni.navigateTo({
+					url: '/pages/index/goodsDetail'
+				})
 			},
 			//跳转到订单
 			jumpToOrderList(type){
