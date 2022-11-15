@@ -240,9 +240,9 @@
 			},
 			//分享
 			handleShare(){
-				uni.navigateTo({
-					url:'/pages/message/chat'
-				})
+				// uni.navigateTo({
+				// 	url:'/pages/message/chat'
+				// })
 			},
 			
 		}

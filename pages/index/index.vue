@@ -218,7 +218,7 @@
 			};
 		},
 		onReady() {
-
+           this.$notice.show({title:'这是一个通知栏',content:'测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容测试内容',duration:5000}) 
 		},
 		methods: {
 			//获取banner

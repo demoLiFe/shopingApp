@@ -5,7 +5,7 @@
 			    v-model="searchKey"
 			    class="input"
 			    prefixIcon="search"
-			 	prefixIconStyle="font-size: 22px;color: #909399;padding:0 20upx;"
+			 	prefixIconStyle="font-size: 22px;color: #909399;margin:0 20upx;"
 			    :adjustPosition="false"
 			    inputAlign="center"
 			    placeholder="请输入内容"
@@ -126,9 +126,9 @@
 			align-items: center;
 			justify-content: center;
 			.input{
-				background: #fff;
-				height: 80upx;
-				line-height: 80upx;
+				background: #fff ;
+				height: 80upx ;
+				line-height: 80upx ;
 			}
 		}
 		.scroll-view{
@@ -156,7 +156,6 @@
 						color: #707070;
 						.name{
 							flex: 1;
-							
 						}
 					}
 				}

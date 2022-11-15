@@ -7,6 +7,7 @@ const services = axios.create({
 	headers:{
 	  'Content-Type':'application/json'
 	},
+	dataType:'application/json;utf-8',
 	timeout:3000
 });
 
@@ -14,14 +15,14 @@ services.interceptors.request.use(
    config=>{
 	   config.validateStatus = function(status) {
 	   	 return status === 200 || status === 401
-	   }
+	   };
 	   config.headers = {
 		   // token:'ab_adw2sd22e2'
 	   }
 	   return config
    },
    err=>{
-	   console.log(err);
+	   console.log('request',err);
    }
 )
 
@@ -32,8 +33,10 @@ services.interceptors.response.use(
 	   }
    },
    err => {
-	   console.log(err);
-	  return Promise.reject(err)
+	   // #ifdef H5
+	   return Promise.reject('网络不给力')
+	   // #endif
+	   return Promise.reject(err)
    }
 )
 axios.defaults.adapter = function(config) {
@@ -44,28 +47,23 @@ axios.defaults.adapter = function(config) {
 			url: serverBaseURL + buildURL(config.url, config.params, config.paramsSerializer),
 			method: config.method.toUpperCase(),
 			data: config.data,
-			header: {
-			
-			},
-			timeout: 30 * 1000,
+			header: config.header,
+			timeout: config.timeout,
 			dataType: config.dataType,
 			validateStatus: config.validateStatus,
 			success: function(response) {
-				// response = {
-				// 	data: response.data,
-				// 	status: response.statusCode,
-				// 	errMsg: response.data.msg,
-				// 	header: response.header,
-				// 	config: config
-				// }
-				settle(resolve, reject, response, config.validateStatus)
+				response = {
+					data: response.data,
+					status: response.statusCode,
+					header: response.header,
+					config: config
+				}
+				settle(resolve, reject, response)
 			},
 			fail: function(err) {
 				if (err) {
 					console.log(11,err);
-					// settle(resolve, reject, {
-					// 	errMsg: '网络不给力'
-					// }, null)
+					settle(resolve, reject,{},'网络不给力')
 				}
 			}
 		})

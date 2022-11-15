@@ -18,12 +18,41 @@
 					<u-checkbox  size="16" shape="circle" activeColor="var(--base-color)" labelColor="#a3a3a3" labelSize="26rpx" label="匿名" name="1">
 					</u-checkbox>
 				</u-checkbox-group>
-				<text>匿名会隐藏头像和昵称</text>
+				<view class="tips-box" @click="showPopup = true">
+					<text class="tips-txt">匿名会隐藏头像和昵称</text>
+					<u-icon name="question-circle"></u-icon>
+				</view>
 			</view>
 		</view>
         <view class="btn-box">
         	<u-button class="btn" type="primary" text="发表" @click="publish"></u-button>
         </view>
+		<!-- 弹出层 -->
+		<u-popup :show="showPopup" mode="bottom" :round="10"  @close="popClose" >
+			<view class="popup-content">
+				<view class="popup-content-header">
+					<text>详细说明</text>
+				</view>
+				<view class="popup-content-body">
+					<text class="title">选择匿名评价</text>
+					<text class="txt">评价在评论区展示是，你的用户名和头像将不对外展示，展示方式如下:</text>
+					<view class="example-box">
+						<u-avatar ></u-avatar>
+						<text class="nick-name">匿名卖家</text>
+					</view>
+					<text class="title mg-top-40">取消匿名评价</text>
+					<text class="txt">评价在评论区展示是，你的用户名和头像将对外展示;</text>
+					<text class="txt">用户昵称和头像展示方式如下:</text>
+					<view class="example-box">
+						<u-avatar ></u-avatar>
+						<text class="nick-name">你的昵称</text>
+					</view>
+				</view>
+				<view class="popup-content-bottom">
+					<u-button class="btn" type="primary" text="完成" @click="showPopup = false"></u-button>
+				</view>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
@@ -31,6 +60,7 @@
 	export default {
 		data() {
 			return {
+				showPopup:false,
 				goodInfo:{
 					img:'',
 					goodsName:'',
@@ -58,7 +88,12 @@
 			//发布
 			publish(){
 				
-			}
+			},
+			//弹层关闭
+			popClose(){
+				this.showPopup = false;
+			},
+			
 		}
 	}
 </script>
@@ -115,6 +150,13 @@
 				.check-box{
 					font-size: 26upx;
 				}
+				.tips-box{
+					display: flex;
+					align-items: center;
+					.tips-txt{
+						padding-right: 10upx;
+					}
+				}
 			}
 		}
 		.btn-box{
@@ -124,5 +166,53 @@
 				border: none;
 			}
 		}
+		
+		//弹出层样式
+		.popup-content{
+			.popup-content-header{
+				height: 100upx;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 28upx;
+			}
+			.popup-content-body{
+				padding: 20upx;
+				font-size: 28upx;
+				height: 500upx;
+				overflow-y: auto;
+				display: flex;
+				flex-direction: column;
+				.mg-top-40{
+					margin-top: 40upx;
+				}
+				.title{
+					padding-bottom: 10upx;
+				}
+				.txt{
+					color: #909090;
+					padding-bottom: 10upx;
+				}
+				.example-box{
+					padding: 20upx;
+					background: #e7e7e7;
+					border-radius: 14upx;
+					display: flex;
+					align-items: center;
+					.nick-name{
+						font-size: 30upx;
+						padding-left: 20upx;
+					}
+				}
+			}
+			.popup-content-bottom{
+				padding: 20upx;
+				.btn{
+					border: none;
+					background: var(--base-color);
+				}
+			}
+		}
+		
 	}
 </style>

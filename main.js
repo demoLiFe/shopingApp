@@ -39,6 +39,12 @@ import NoData from './components/no-data.vue'
 
 Vue.component('NoData',NoData)
 
+// #ifdef H5
+import CustomNotice from '@/components/custom-notice/custom-notice.js'
+Vue.use(CustomNotice)
+// #endif
+
+
 Vue.config.productionTip = false
 App.mpType = 'app'
 
