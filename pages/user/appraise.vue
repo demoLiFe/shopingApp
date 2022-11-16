@@ -66,7 +66,7 @@
 								</view>
 							</view>
 						</view>
-						<u-loadmore style="padding: 30rpx 0;"  :status="loadStatus"  :loadmoreText="loadText.loadmoreText" :loading-text="loadText.loadingText" :nomore-text="loadText.nomoreText"  dashed line />
+						<u-loadmore style="padding: 30rpx 0 50upx 0;"  :status="loadStatus"  :loadmoreText="loadText.loadmoreText" :loading-text="loadText.loadingText" :nomore-text="loadText.nomoreText"  dashed line />
 					</view>
 					<no-data v-else></no-data>
 				</scroll-view>

@@ -18,7 +18,6 @@ export default {
 					 	ins.close();
 					 },options.duration || 3000)
 				 };
-				 console.log(ins);
 			 }
 		 }
 	}
