@@ -86,7 +86,7 @@
 			},
 			//加载收藏列表
 			loadCollectionList(){
-				if(this.page === 1){
+				if(this.pageNum === 1){
 					uni.showLoading({
 						title:'数据加载中..'
 					});

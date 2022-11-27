@@ -63,16 +63,28 @@
 			//保存到本地
 			save() {
 				// #ifdef APP-PLUS
-				   uni.canvasToTempFilePath({
-				   	canvasId: 'myCanvas',
-				   	success: function(res) {
-				   		uni.saveImageToPhotosAlbum({
-				   			filePath: res.tempFilePath
-				   		})
-				   	}
-				   })
+				    uni.canvasToTempFilePath({
+						canvasId: 'myCanvas',
+						success: function(res) {
+							uni.saveImageToPhotosAlbum({
+								filePath: res.tempFilePath
+							})
+						}
+				    })
 				// #endif
-				
+				// #ifdef H5
+					uni.canvasToTempFilePath({
+						canvasId: 'myCanvas',
+						success: function(res) {
+							let aEle = document.createElement('a');
+							aEle.download = '签名';
+							aEle.href = res.tempFilePath;
+							document.body.appendChild(aEle);
+							aEle.click();
+							aEle.remove();
+						}
+					});
+				// #endif	
 			},
 			//清空当前内容
 			clear() {

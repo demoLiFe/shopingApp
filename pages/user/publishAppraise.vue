@@ -9,6 +9,11 @@
 				</view>
 			</view>
 			<u--textarea v-model="appraise" border="none" confirmType="done" placeholder="请输入评价内容"></u--textarea>
+			<scroll-view  scroll-x="true" v-if="pictureList.length">
+				<view class="show-img-box" >
+					<u-image class="img" v-for="item in pictureList" :key="item.img" height="70" width="70" :src="item.img" mode=""></u-image>
+				</view>
+			</scroll-view>
 			<view class="choose-img-box" @click="chooseImage">
                  <u-icon name="plus" size="26"></u-icon>
 				 <text class="tips">上传图片</text>
@@ -67,7 +72,8 @@
 					goodsAttr:''
 				},
 				appraise: '',
-				pictureList:[]
+				pictureList:[],
+				
 			}
 		},
 		onLoad(opt) {
@@ -78,12 +84,29 @@
 		methods:{
 			//选择图片
 			chooseImage(){
-				uni.chooseImage({
-					count:5,
-					success: (res) => {
-						console.log(res);
-					}
-				})
+				if(this.pictureList.length < 5){
+					uni.chooseImage({
+						count:5,
+						success: (res) => {
+							if( res.tempFilePaths.length){
+								res.tempFilePaths.forEach(v=>{
+									uni.getImageInfo({
+										src: v,
+										success: (image)=> {
+											this.pictureList.push({img:image.path})
+										}
+									});
+								});
+								
+							}
+						}
+					})
+				}else{
+					uni.showToast({
+						icon:'none',
+						title:'最多选择5张图片'
+					})
+				}
 			},
 			//发布
 			publish(){
@@ -125,6 +148,15 @@
 					.attr {
 						color: #9e9e9e;
 					}
+				}
+			}
+			.show-img-box{
+				padding: 20upx 0;
+				display: flex;
+				align-items: center;
+				.img{
+					margin-right: 20upx;
+					// height
 				}
 			}
 			.choose-img-box {

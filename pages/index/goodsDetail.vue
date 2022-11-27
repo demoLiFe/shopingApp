@@ -150,8 +150,8 @@
 				</view>
 			</view>
 			<view class="right">
-				<button class="btn "  type="primary" @click="jumpToBuyingCart"><text>加购物车</text></button>
-				<button class="btn" type="primary" @click="jumpToCreateOrder"><text>立即购买</text></button>
+				<view class="btn "  type="primary" @click="jumpToBuyingCart"><text class="btn-txt">加购物车</text></view>
+				<view class="btn" type="primary" @click="jumpToCreateOrder"><text class="btn-txt">立即购买</text></view>
 			</view>
 		</view>
 		<!-- 分享弹出 -->
@@ -608,6 +608,9 @@
 				width: 180upx;
 				text-align: center;
 				border: none;
+				.btn-txt{
+					color: #fff;
+				}
 			}
 			&::after{
 				content: '';

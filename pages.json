@@ -3,41 +3,45 @@
 			"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		// {
+		// 	"path": "pages/index/index",
+		// 	"style": {
+		// 		"navigationBarTitleText": "我的商城",
+		// 		//"navigationStyle": "custom",
+		// 		"app-plus": {
+		// 			"titleNView": {
+		// 				"type": "transparent",
+		// 				"searchInput": {
+		// 					"backgroundColor": "#fff",
+		// 					"borderRadius": "16px",
+		// 					"placeholder": "请输入搜索内容",
+		// 					"disabled": true //disable时点击输入框不置焦，可以跳到新页面搜索
+		// 				},
+		// 				"buttons": [{
+		// 						"fontSrc": "/static/fonticon/fonticon.ttf",
+		// 						"text": "\ue60d",
+		// 						"fontSize": "26",
+		// 						"color": "#303133",
+		// 						"float": "left",
+		// 						"background": "rgba(0,0,0,0)"
+		// 					},
+		// 					{
+		// 						"fontSrc": "/static/fonticon/fonticon.ttf",
+		// 						"text": "\ue744",
+		// 						"fontSize": "27",
+		// 						"color": "#303133",
+		// 						"background": "rgba(0,0,0,0)",
+		// 						"redDot": true
+		// 					}
+		// 				]
+		// 			}
+		// 		}
+		// 	}
+		// },
 		{
-			"path": "pages/index/index",
+			"path": "pages/index/index1",
 			"style": {
-				// #ifdef MP
-				"navigationBarTitleText": "我的商城",
-				//"navigationStyle": "custom",
-				// #endif 
-				"app-plus": {
-					"titleNView": {
-						"type": "transparent",
-						"searchInput": {
-							"backgroundColor": "#fff",
-							"borderRadius": "16px",
-							"placeholder": "请输入搜索内容",
-							"disabled": true //disable时点击输入框不置焦，可以跳到新页面搜索
-						},
-						"buttons": [{
-								"fontSrc": "/static/fonticon/fonticon.ttf",
-								"text": "\ue60d",
-								"fontSize": "26",
-								"color": "#303133",
-								"float": "left",
-								"background": "rgba(0,0,0,0)"
-							},
-							{
-								"fontSrc": "/static/fonticon/fonticon.ttf",
-								"text": "\ue744",
-								"fontSize": "27",
-								"color": "#303133",
-								"background": "rgba(0,0,0,0)",
-								"redDot": true
-							}
-						]
-					}
-				}
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -91,7 +95,7 @@
 			"path": "pages/user/user",
 			"style": {
 				"navigationBarTitleText": "我的",
-				// "disableScroll": true, //关闭小程序（IOS）上页面回弹
+				"disableScroll": true, //关闭小程序（IOS）上页面回弹
 				"app-plus":{
 					"bounce":"none",//关闭回弹
 					"titleNView":{
@@ -142,7 +146,11 @@
 		{
 			"path": "pages/user/autograph",
 			"style": {
-				"navigationBarTitleText": "签名"
+				"navigationBarTitleText": "签名",
+				"disableScroll":true,
+				"app-plus": {
+					"bounce": "none"
+				}
 			}
 		},
 		{
@@ -154,7 +162,8 @@
 		{
 			"path": "pages/login/login",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"navigationBarTitleText": ""
 				
 			}
 		},
@@ -253,7 +262,7 @@
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
 		"list": [{
-				"pagePath": "pages/index/index",
+				"pagePath": "pages/index/index1",
 				"iconPath": "static/tab-home.png",
 				"selectedIconPath": "static/tab-home-current.png",
 				"text": "首页"

@@ -202,6 +202,13 @@
 			this.loadLikeGoodsList();
 			this.loadCateGoodsList()
 		},
+		//搜索框点击
+		onNavigationBarSearchInputClicked(e){
+			uni.showModal({
+				content: '点击搜索',
+				showCancel: false
+			});
+		},
 		onNavigationBarButtonTap (e){
 			if(e.index === 0){
 				// #ifndef H5

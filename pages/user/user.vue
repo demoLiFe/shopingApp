@@ -134,9 +134,7 @@
 		},
 		onNavigationBarButtonTap(e){
 			if(e.index === 0){//设置
-				uni.navigateTo({
-					url:'/pages/user/setting'
-				})
+				this.jumpToSetting();
 			}else if(e.index === 1){//消息
 				uni.navigateTo({
 					url:'/pages/message/message'
@@ -222,9 +220,13 @@
 			},
 			//跳转到设置
 			jumpToSetting(){
-				uni.navigateTo({
-					url:'/pages/user/setting'
-				})
+				if(this.hasLogin){
+					uni.navigateTo({
+						url:'/pages/user/setting'
+					})
+				}else{
+					this.whetherJumpToLogin();
+				};
 			},
 			//跳转到收藏
 			jumpToCollection(){

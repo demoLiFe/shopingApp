@@ -36,8 +36,11 @@ Vue.mixin({
 
 //全局自定义组件注册
 import NoData from './components/no-data.vue'
-
+import StatusBar from './components/custom-status-bar.vue'
+import Search from './components/search.vue';
 Vue.component('NoData',NoData)
+Vue.component('StatusBar',StatusBar)
+Vue.component('Search',Search)
 
 // #ifdef H5
 import CustomNotice from '@/components/custom-notice/custom-notice.js'
