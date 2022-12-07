@@ -39,7 +39,7 @@
 
 <style lang="scss" scoped>
 	.success-icon{
-		margin-top: 100upx;
+		padding-top: 100upx;
 		text-align: center;
 		.font-icon{
 			color: #fa436a;

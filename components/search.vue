@@ -4,7 +4,7 @@
 			<slot name="left"></slot>
 		</view>
 		<view class="input-box">
-			<text class="place-holder">1111</text>
+			<text class="place-holder">{{placeholder}}</text>
 		</view>
 		<slot name="right-icon"></slot>
 		<view class="btn-box">
@@ -21,6 +21,10 @@
 			btnText:{
 				type:String,
 				default:'搜索'
+			},
+			placeholder:{
+				type:String,
+				default:'输入查询关键字'
 			}
 		}
 	}

@@ -42,6 +42,7 @@ Vue.component('NoData',NoData)
 Vue.component('StatusBar',StatusBar)
 Vue.component('Search',Search)
 
+
 // #ifdef H5
 import CustomNotice from '@/components/custom-notice/custom-notice.js'
 Vue.use(CustomNotice)
